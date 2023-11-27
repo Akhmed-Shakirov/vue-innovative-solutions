@@ -1,45 +1,43 @@
 <template>
-    <Flap />
+    <header class="menu">
+        <router-link to="/">Home</router-link>
+        <router-link to="/icons">Icons</router-link>
+    </header>
+
+    <router-view />
     
-    <button @click="isModal = !isModal">Modal</button>
-
-    <Modal v-model="isModal" />
-
-    <Select />
-
-    <Icon icon="xmark"/>
-
-    <Icon icon="vite.svg"/>
-
-    <Icon icon="vue.svg"/>
-
-    <Input v-model="value" label="Name" placeholder="Alex" style="width: 250px" />
-
-    <Datepicker v-model="date" label="Date" placeholder="__.__.____" style="width: 250px" />
-
-    <div class="section" />
+    <!-- <div class="section" /> -->
 </template>
 
 <script setup lang="ts">
-import Flap from './components/Flap.vue'
-import Modal from './components/Modal.vue'
-import Select from './components/Select.vue'
-import Icon from './components/Icon.vue'
-import Input from './components/Input.vue'
-import Datepicker from './components/Datepicker.vue'
 
-import { ref } from 'vue'
-
-const isModal = ref<boolean>(false)
-
-const value = ref<string | null>(null)
-
-const date = ref<string | null>(null)
-
-// date.value = '2024-12-20'
 </script>
 
 <style scoped lang="scss">
+.menu {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+
+    a {
+        color: rgba(255, 255, 255, 0.87);
+        transition: .2s;
+
+        &:hover {
+            opacity: .5;
+        }
+    }
+
+    .router-link-active {
+        color: #41b883;
+
+        &:hover {
+            opacity: 1;
+        }
+    }
+}
+
 .section {
     height: 5000px;
 }

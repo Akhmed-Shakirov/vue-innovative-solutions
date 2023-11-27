@@ -63,5 +63,4 @@ watch(width, () => {
         }
     }
 }
-
 </style>
