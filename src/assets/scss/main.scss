@@ -149,7 +149,7 @@ button:hover {
     }
 
     &-icon {
-        
+
         .field__main {
             padding-right: 2.7em;
         }
@@ -163,4 +163,10 @@ button:hover {
 
 .spin {
   animation: spin 1s linear 0s infinite;
+}
+
+.d-flex {
+    display: flex;
+    align-items: center;
+    gap: 12px;
 }

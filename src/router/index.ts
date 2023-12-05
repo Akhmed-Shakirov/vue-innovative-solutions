@@ -10,6 +10,10 @@ const routes = [
         path: '/icons',
         component: () => import('../views/icons.vue')
     },
+    {
+        path: '/store',
+        component: () => import('../views/store.vue')
+    },
 ]
 
 const router = createRouter({

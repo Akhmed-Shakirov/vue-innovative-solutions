@@ -2,23 +2,34 @@
     <header class="menu">
         <router-link to="/">Home</router-link>
         <router-link to="/icons">Icons</router-link>
+        <router-link to="/store">Store</router-link>
+
+        <div class="store">{{ count }}</div>
     </header>
 
     <router-view />
-    
+
     <!-- <div class="section" /> -->
 </template>
 
 <script setup lang="ts">
-
+import { useCountStore } from './stores/count'
+import { storeToRefs } from 'pinia'
+const { count } = storeToRefs(useCountStore())
 </script>
 
 <style scoped lang="scss">
 .menu {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 12px;
+
+    .store {
+        position: absolute;
+        right: -200px;
+    }
 
     a {
         color: rgba(255, 255, 255, 0.87);
