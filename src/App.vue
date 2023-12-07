@@ -2,6 +2,7 @@
     <header class="menu">
         <router-link to="/">Home</router-link>
         <router-link to="/icons">Icons</router-link>
+        <router-link to="/items">Items</router-link>
     </header>
 
     <router-view />
