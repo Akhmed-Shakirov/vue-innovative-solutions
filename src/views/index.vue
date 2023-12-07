@@ -5,7 +5,7 @@
 
     <Modal v-model="isModal" />
 
-    <Select />
+    <Select v-model="value" :options="options" />
 
     <Icon icon="xmark"/>
 
@@ -33,6 +33,12 @@ const isModal = ref<boolean>(false)
 const value = ref<string | null>(null)
 
 const date = ref<string | null>(null)
+
+const options = ref<any[]>([
+    { name: 'Alex', value: 1 },
+    { name: 'Tom', value: 2 },
+    { name: 'Max', value: 3 },
+])
 
 // date.value = '2024-12-20'
 </script>

@@ -1,10 +1,10 @@
 <template>
     <div class="select" ref="select">
-        <button class="select__head" @click="isShow = !isShow">Select</button>
+        <button class="select__head" @click="isShow = !isShow">{{ modelValue ? options?.find(el => el[keys[1]] == modelValue)[keys[0]] : 'Select' }}</button>
         <teleport to="body">
             <Transition>
                 <div class="select__body" ref="selectOutside" :style="styleObject" v-if="isShow">
-                    <p v-for="item in 5" :key="item">{{ item }} awdwad</p>
+                    <p v-for="item in options" :key="item[keys[1]]" @click="setValue(item)">{{ item[keys[0]] }}</p>
                 </div>
             </Transition>
         </teleport>
@@ -12,8 +12,24 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue'
+import { ref, computed, watch, defineModel } from 'vue'
 import { onClickOutside, useMouseInElement, useWindowSize } from '@vueuse/core'
+
+const modelValue = defineModel<string | number | null>()
+
+interface Props {
+    options?: any[]
+    keys?: string[]
+}
+
+const props = withDefaults(defineProps<Props>(), {
+    keys: () => ['name', 'value']
+})
+
+const setValue = (item: any) => {
+    modelValue.value = item[props.keys[1]]
+    isShow.value = false
+}
 
 const isShow = ref<boolean>(false)
 
@@ -38,6 +54,8 @@ onClickOutside(selectOutside, (event: any) => {
 watch(width, () => {
     if (!!isShow.value) isShow.value = false
 })
+
+props
 </script>
 
 <style scoped lang="scss">
