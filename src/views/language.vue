@@ -1,23 +1,26 @@
 <template>
     {{ $t('hi') }}
 
-    <div class="d-flex">
-        <button @click="setLang('ru')">RU</button>
-        <button @click="setLang('kz')">KZ</button>
-        <button @click="setLang('en')">EN</button>
-    </div>
+    <Select v-model="language" :options="options" />
 </template>
 
 <script setup lang="ts">
+import Select from '../components/Select.vue'
+
+import { ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useStorage } from '@vueuse/core'
 
 const { locale } = useI18n()
 const language = useStorage('language', '')
 
-const setLang = (value: string) => {
-    locale.value = language.value = value
-}
+watch(language, () => locale.value = language.value )
+
+const options = ref<any[]>([
+    { name: 'RU', value: 'ru' },
+    { name: 'KZ', value: 'kz' },
+    { name: 'EN', value: 'en' },
+])
 </script>
 
 <style scoped lang="scss">
