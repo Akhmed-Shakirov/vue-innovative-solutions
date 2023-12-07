@@ -18,6 +18,10 @@ const routes = [
         path: '/items',
         component: () => import('../views/items.vue')
     },
+    {
+        path: '/lang',
+        component: () => import('../views/lang.vue')
+    },
 ]
 
 const router = createRouter({

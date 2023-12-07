@@ -4,6 +4,7 @@
         <router-link to="/icons">Icons</router-link>
         <router-link to="/items">Items</router-link>
         <router-link to="/store">Store</router-link>
+        <router-link to="/lang">Lang</router-link>
 
         <div class="store">{{ count }}</div>
     </header>
