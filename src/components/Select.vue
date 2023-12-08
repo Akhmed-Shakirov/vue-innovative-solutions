@@ -1,6 +1,8 @@
 <template>
     <div class="select" ref="select">
-        <button class="select__head" @click="isShow = !isShow">{{ modelValue ? options?.find(el => el[keys[1]] == modelValue)[keys[0]] : 'Select' }}</button>
+        <button class="select__head" @click="isShow = !isShow">
+            {{ modelValue ? options?.find(el => el[keys[1]] == modelValue)[keys[0]] : 'Select' }}
+        </button>
         <teleport to="body">
             <Transition>
                 <div class="select__body" ref="selectOutside" :style="styleObject" v-if="isShow">
