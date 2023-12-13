@@ -6,16 +6,15 @@ import VueMacros from 'unplugin-vue-macros'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
-    vue({
-      script: {
-        defineModel: true
-      }
-    }),
     VueMacros.vite({
       plugins: {
-        vue: vue()
+        vue: vue({
+          script: {
+            defineModel: true
+          }
+        })
       }
-    })
+    }),
   ],
   resolve: {
     alias: {

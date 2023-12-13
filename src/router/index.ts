@@ -22,6 +22,10 @@ const routes = [
         path: '/language',
         component: () => import('../views/language.vue')
     },
+    {
+        path: '/fetch',
+        component: () => import('../views/fetch.vue')
+    },
 ]
 
 const router = createRouter({
