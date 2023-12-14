@@ -12,12 +12,12 @@
         </div>
         <div style="display: flex;" v-else>
             <div style="width: 500px;">
-                <p v-for="post in posts.data" :key="post.id" @click="setItem(post)">
+                <p v-for="post in posts.data" :key="post.id" @click="set_item(post)">
                     {{ post.name }}
                 </p>
             </div>
             <div style="width: 500px;">
-                <p v-for="post in data" :key="post.id" @click="setItem(post)">
+                <p v-for="post in data" :key="post.id" @click="set_item(post)">
                     {{ post.name }}
                 </p>
             </div>
@@ -37,19 +37,10 @@ const posts = ref<{ data: any[], isLoading: boolean, isError: boolean }>({
     isLoading: false,
     isError: false
 })
-
-const data = ref<any>([])
-
-const setItem = (event: any) => {
+const set_item = (event: any) => {
     item.value = JSON.parse(JSON.stringify(event))
     old_item.value = JSON.parse(JSON.stringify(event))
 }
-
-const getData = async () => {
-    data.value = await useFetch(['comments', { postId: 1 }])
-}
-getData()
-
 const posts_request = async (method: string = 'GET', filter: any = '') => {
     let api: any = 'comments'
     method = method.toLocaleUpperCase()
@@ -79,6 +70,12 @@ const posts_request = async (method: string = 'GET', filter: any = '') => {
     }
 }
 posts_request()
+
+const data = ref<any>([])
+const get_data = async () => {
+    data.value = await useFetch(['comments', { postId: 1 }])
+}
+get_data()
 </script>
 
 <style scoped lang="scss"></style>
