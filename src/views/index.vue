@@ -15,7 +15,7 @@
 
     <Input v-model="value" label="Name" placeholder="Alex" style="width: 250px" />
 
-    <Datepicker v-model="date" label="Date" placeholder="__.__.____" style="width: 250px" />
+    <Datepicker v-model="date" label="Date" placeholder="__.__.____" style="width: 250px" isActiveDay />
 </template>
 
 <script setup lang="ts">
