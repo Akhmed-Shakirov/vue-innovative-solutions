@@ -26,6 +26,10 @@ const routes = [
         path: '/fetch',
         component: () => import('../views/fetch.vue')
     },
+    {
+        path: '/kanban',
+        component: () => import('../views/kanban.vue')
+    },
 ]
 
 const router = createRouter({

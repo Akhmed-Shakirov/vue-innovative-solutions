@@ -6,6 +6,7 @@
         <router-link to="/store">Store</router-link>
         <router-link to="/language">Language</router-link>
         <router-link to="/fetch">Fetch</router-link>
+        <router-link to="/kanban">Kanban</router-link>
 
         <div class="store">{{ count }}</div>
     </header>
