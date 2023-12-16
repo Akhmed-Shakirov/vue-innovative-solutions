@@ -1,6 +1,6 @@
 <template>
     <div class="select" ref="select">
-        <button class="select__head" @click="isShow = !isShow">
+        <button class="select__head" @click="toggle">
             {{ modelValue ? options?.find(el => el[keys[1]] == modelValue)[keys[0]] : 'Select' }}
         </button>
         <teleport to="body">
@@ -15,7 +15,7 @@
 
 <script setup lang="ts">
 import { ref, computed, watch, defineModel } from 'vue'
-import { onClickOutside, useMouseInElement, useWindowSize } from '@vueuse/core'
+import { onClickOutside, useMouseInElement, useWindowSize, watchDebounced } from '@vueuse/core'
 
 const modelValue = defineModel<string | number | null>()
 
@@ -34,6 +34,7 @@ const setValue = (item: any) => {
 }
 
 const isShow = ref<boolean>(false)
+const isTimer = ref<boolean>(true)
 
 const select = ref<HTMLElement | null>(null)
 const selectOutside = ref<HTMLElement | null>(null)
@@ -48,10 +49,23 @@ const styleObject = computed<{top: string, left: string}>(() => {
     }
 })
 
-onClickOutside(selectOutside, (event: any) => {
-    const list = [ ...event?.target?.classList ]
-    if (!!isShow.value && !list?.includes('select__head')) isShow.value = false
+onClickOutside(selectOutside, () => {
+    if (!!isShow.value) {
+        isShow.value = false
+		isTimer.value = false
+    }
 })
+
+const toggle = () => {
+    if (isTimer.value) {
+        isShow.value = !isShow.value
+    }
+	isTimer.value = false
+}
+
+watchDebounced(isTimer,() => {
+	isTimer.value = true
+},{ debounce: 100, maxWait: 100 })
 
 watch(width, () => {
     if (!!isShow.value) isShow.value = false

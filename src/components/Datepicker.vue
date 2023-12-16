@@ -4,7 +4,7 @@
         ref="datepicker"
         :class="{ 'datepicker__active' : isShow }"
     >
-        <Input v-model="value" mask="##.##.####" :label="label" :placeholder="placeholder" icon="calendar" @icon="isShow = !isShow" />
+        <Input v-model="value" mask="##.##.####" :label="label" :placeholder="placeholder" icon="calendar" @icon="toggle" />
         
         <teleport to="body">
             <Transition>
@@ -89,7 +89,7 @@ import Input from './Input.vue'
 import Icon from './Icon.vue'
 
 import { ref, computed, watch, defineModel } from 'vue'
-import { onClickOutside, useMouseInElement, useWindowSize } from '@vueuse/core'
+import { onClickOutside, useMouseInElement, useWindowSize, watchDebounced } from '@vueuse/core'
 import moment from 'moment'
 
 
@@ -265,6 +265,7 @@ const decrementDate = (type: any) => {
 
 // Datepicker
 const isShow = ref<boolean>(false)
+const isTimer = ref<boolean>(true)
 const datepicker = ref<HTMLElement | null>(null)
 const datepickerOutside = ref<HTMLElement | null>(null)
 const { elementPositionX, elementPositionY, elementHeight } = useMouseInElement(datepicker)
@@ -275,10 +276,22 @@ const styleObject = computed<{top: string, left: string}>(() => {
         left: elementPositionX.value + 'px'
     }
 })
-onClickOutside(datepickerOutside, (event: any) => {
-    const list = [ ...event?.target?.classList ]
-    if (!!isShow.value && !list?.includes('calendar')) isShow.value = false
+onClickOutside(datepickerOutside, () => {
+    if (!!isShow.value) {
+        isShow.value = false
+		isTimer.value = false
+    }
 })
+const toggle = () => {
+    if (isTimer.value) {
+        isShow.value = !isShow.value
+    }
+	isTimer.value = false
+}
+
+watchDebounced(isTimer,() => {
+	isTimer.value = true
+},{ debounce: 100, maxWait: 100 })
 watch(width, () => {
     if (!!isShow.value) isShow.value = false
 })
