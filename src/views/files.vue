@@ -1,18 +1,18 @@
 <template>
     file : {{value ?? '{}'}}
-    <UIFiles v-model="value" />
+    <Files v-model="value" />
     
     <br>
     file id : {{ document.id ?? 'null' }}
-    <UIFiles is-get-id v-model="document.id" :file="document.file" />
+    <Files is-get-id v-model="document.id" :file="document.file" />
 	  
     <br>
     file : string
-    <UIFiles v-model="file" />
+    <Files v-model="file" />
 	  
     <br>
     files : Array
-    <UIFiles v-model="files" />
+    <Files v-model="files" />
 </template>
 
 <script setup lang="ts">
