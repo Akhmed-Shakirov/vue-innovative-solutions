@@ -30,6 +30,10 @@ const routes = [
         path: '/kanban',
         component: () => import('../views/kanban.vue')
     },
+    {
+        path: '/files',
+        component: () => import('../views/files.vue')
+    },
 ]
 
 const router = createRouter({

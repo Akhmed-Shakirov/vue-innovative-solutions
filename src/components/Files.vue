@@ -1,42 +1,44 @@
 <template>
-  <div
-	  class="files"
-	  ref="dropZoneRef"
-	  :class="{
+	<div
+		class="files"
+		ref="dropZoneRef"
+		v-if="limit || !limit && !files?.length"
+		@click="!isDisabled && open()"
+		:class="{
 			'files-active' : isOverDropZone,
 			'files-error': isValidation || isError,
 			'files-disabled': isDisabled,
 		}"
-	  v-if="limit || !limit && !files?.length"
-	  @click="!isDisabled && open()"
-  >
-    <div class="files__label" v-if="label">{{ $t(label ?? '') }}</div>
-    <div class="files__limit" v-if="limit">{{files?.length ? files?.length : '0'}}/{{limit}}</div>
-    <div class="files__text"><span>{{ $t('choose_file') }}</span> {{ $t('or_move_it_here') }} </div>
-    <div class="files__type">({{ getTypes.join(', ') }})</div>
-  </div>
+	>
+		<div class="files__label" v-if="label">{{ $t(label ?? '') }}</div>
+		<div class="files__limit" v-if="limit">{{files?.length ? files?.length : '0'}}/{{limit}}</div>
+		<div class="files__text"><span>{{ $t('choose_file') }}</span> {{ $t('or_move_it_here') }} </div>
+		<div class="files__type">({{ getTypes.join(', ') }})</div>
+	</div>
 
-  <div class="files__items" v-if="files?.length">
-    <div class="files__item" v-for="(item, index) in files" :key="item">
-      <UIIcon :icon="`${getFormat(item?.name)}.svg`" class="type" />
-      <p>{{ item?.name }}</p>
-      <UIIcon icon="trash" class="trash" @click="removeFile(index)" />
-    </div>
-  </div>
+	<div class="files__items" v-if="files?.length">
+		<div class="files__item" v-for="(item, index) in files" :key="item">
+			<div @click="item?.link && downloadFile(item?.link, item?.name)">
+				<UIIcon :icon="`${getFormat(item?.name)}.svg`" class="type" />
+				<p>{{ item?.name }}</p>
+			</div>
+		<UIIcon icon="trash" class="trash" @click="removeFile(index)" />
+		</div>
+	</div>
 </template>
 
 <script setup lang="ts">
-import axios from 'axios'
+import UIIcon from './Icon.vue'
+
 import {ref, computed, onMounted} from 'vue'
 import {useDropZone, useFileDialog} from '@vueuse/core'
-import UIIcon from '@/components/UI/Icon.vue'
 
 const props = defineProps<{
 	modelValue?: any
-  label?: string
-  limit?: string
-  types?: string[]
-  isError?: boolean
+	label?: string
+	limit?: string
+	types?: string[]
+  	isError?: boolean
 	isDisabled?: boolean
 	isGetId?: boolean
 	file?: any
@@ -113,19 +115,35 @@ const removeFile = (index: number) => {
 		emit('update:modelValue', null)
 	}
 }
+const downloadFile = async (url: string, fileName: string = 'downloaded_file') => {
+	try {
+		const response = await fetch(url)
+		const blob = await response.blob()
+		const downloadUrl = URL.createObjectURL(blob)
+		const a = document.createElement('a')
+		a.href = downloadUrl
+		a.download = fileName
+		document.body.appendChild(a)
+		a.click()
+		URL.revokeObjectURL(downloadUrl)
+		document.body.removeChild(a)
+	} catch (error) {
+		console.error('Ошибка при скачивании файла:', error)
+	}
+}
 
 onMounted(() => {
 	if (Array.isArray(props.modelValue)) {
-		files.value = props.modelValue.map(el => ({ ...el, name: decodeURIComponent((el.file ?? el?.name)?.split('/')?.at(-1)).replace(/_/g, ' ') }))
+		files.value = props.modelValue.map(el => ({ ...el, link: el.file, name: decodeURIComponent((el.file ?? el?.name)?.split('/')?.at(-1)).replace(/_/g, ' ') }))
 	}
 	
 	if (typeof props.modelValue == 'string') {
 		const array: any = props.modelValue?.split('/')
-		files.value = [ { name: decodeURIComponent(array?.at(-1)).replace(/_/g, ' ') } ]
+		files.value = [ { link: props.modelValue, name: decodeURIComponent(array?.at(-1)).replace(/_/g, ' ') } ]
 	}
 	
 	if (props.isGetId && props.file) {
-		files.value = [ { name: decodeURIComponent(props.file?.split('/')?.at(-1)).replace(/_/g, ' ') } ]
+		files.value = [ { link: props.file, name: decodeURIComponent(props.file?.split('/')?.at(-1)).replace(/_/g, ' ') } ]
 	}
 })
 
@@ -135,125 +153,135 @@ onChange((files: any) => setFiles(files) )
 
 <style scoped lang="scss">
 .files {
-  position: relative;
-  width: 100%;
-  border-radius: 6px;
-  border: 1px dashed #84CAFF;
-  background: #F5FAFF;
+	position: relative;
+	border-radius: 6px;
+	border: 1px dashed #41b883;
+	background: #1a1a1a;
+	width: 100%;
 
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 12px 16px;
-  gap: 8px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: 12px 16px;
+	gap: 8px;
 
-  cursor: pointer;
-  transition: .2s;
+	cursor: pointer;
+	transition: .2s;
 
-  &:hover, &-active {
-    background: #e7f3ff;
-  }
+	&:hover, &-active {
+		background: #242424;
+	}
 
-  &__items {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
+	&__items {
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+	}
 
-  &__item {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 12px 16px;
-    gap: 22px;
+	&__item {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 12px 16px;
+		gap: 22px;
 
-    border-radius: 6px;
-    border: 1px solid #D0D5DD;
-    background: #FFF;
+		border-radius: 6px;
+		border: 1px solid transparent;
+		background: #1a1a1a;
 
-    .type {
-      width: 22px;
-      height: 25px;
-    }
+		.type {
+			width: 22px;
+			height: 25px;
+		}
 
-    p {
-      text-align: left;
-      color: #344054;
-      font-size: 14px;
-      font-style: normal;
-      font-weight: 400;
-      flex: 1 1 auto;
-    }
-
-    .trash {
-      color: #98A2B3;
-      cursor: pointer;
-
-      &:hover {
-        color: #000000;
-      }
-    }
-  }
-
-  &__label, &__limit {
-    color: #98A2B3;
-    font-size: 12px;
-    font-style: normal;
-    font-weight: 500;
-    position: absolute;
-	  z-index: 1;
-    top: -10px;
+		p {
+			text-align: left;
+			color: #cdcdcd;
+			font-size: 14px;
+			font-style: normal;
+			font-weight: 400;
+		}
 	  
-	  &:before {
-		  top: 8px;
-		  left: -2px;
-		  position: absolute;
-		  content: "";
-		  width: 104%;
-		  height: 3px;
-		  background: #ffffff;
-		  z-index: -1;
-	  }
-  }
+		div {
+			display: flex;
+			align-items: center;
+			gap: 22px;
+			flex: 1 1 auto;
+			cursor: pointer;
+			transition: .2s;
+			
+			&:hover {
+				opacity: .5;
+			}
+		}
 
-  &__label {
-    left: 16px;
-  }
+		.trash {
+			color: #cdcdcd;
+			cursor: pointer;
 
-  &__limit {
-    right: 16px;
-  }
+			&:hover {
+				color: #ff8484;
+			}
+		}
+  	}
 
-  &__text {
-    color: #344054;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 400;
-    user-select: none;
+	&__label, &__limit {
+		color: #98A2B3;
+		font-size: 12px;
+		font-style: normal;
+		font-weight: 500;
+		position: absolute;
+		z-index: 1;
+		top: -10px;
+		
+		&:before {
+			top: 8px;
+			left: -2px;
+			position: absolute;
+			content: "";
+			width: 104%;
+			height: 3px;
+			background: #ffffff;
+			z-index: -1;
+		}
+	}
 
-    span {
-      color: #3A94CF;
-      text-decoration-line: underline;
-    }
-  }
+	&__label {
+		left: 16px;
+	}
 
-  &__type {
-    user-select: none;
-    color: #98A2B3;
-    font-size: 12px;
-    font-style: normal;
-    font-weight: 400;
-  }
+	&__limit {
+		right: 16px;
+	}
+
+	&__text {
+		color: #92b1c6;
+		font-size: 14px;
+		font-style: normal;
+		font-weight: 400;
+		user-select: none;
+
+		span {
+			color: #3A94CF;
+			text-decoration-line: underline;
+		}
+	}
+
+	&__type {
+		user-select: none;
+		color: #71ad92;
+		font-size: 12px;
+		font-style: normal;
+		font-weight: 400;
+	}
 	
 	&-error {
 		border: 1px dashed #ff8484;
-		background: #fff5f5;
 		
 		.files__type {
-			color: #d72b2b;
+			color: #d74f4f;
 			font-weight: 500;
 			text-decoration-line: underline;
 		}
