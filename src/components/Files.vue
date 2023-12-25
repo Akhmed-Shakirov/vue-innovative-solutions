@@ -22,7 +22,7 @@
 				<UIIcon :icon="`${getFormat(item?.name)}.svg`" class="type" />
 				<p>{{ item?.name }}</p>
 			</div>
-		<UIIcon icon="trash" class="trash" @click="removeFile(index)" />
+			<UIIcon icon="trash" class="trash" @click="removeFile(index)" />
 		</div>
 	</div>
 </template>
