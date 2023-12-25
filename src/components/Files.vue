@@ -155,7 +155,7 @@ onChange((files: any) => setFiles(files) )
 .files {
 	position: relative;
 	border-radius: 6px;
-	border: 1px dashed #41b883;
+	border: 1px dashed #c9c9c9;
 	background: #1a1a1a;
 	width: 100%;
 
@@ -257,7 +257,7 @@ onChange((files: any) => setFiles(files) )
 	}
 
 	&__text {
-		color: #92b1c6;
+		color: #cdcdcd;
 		font-size: 14px;
 		font-style: normal;
 		font-weight: 400;
@@ -271,7 +271,7 @@ onChange((files: any) => setFiles(files) )
 
 	&__type {
 		user-select: none;
-		color: #71ad92;
+		color: #ffffff;
 		font-size: 12px;
 		font-style: normal;
 		font-weight: 400;
