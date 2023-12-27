@@ -3,12 +3,16 @@
         <Transition>
             <div class="modal" v-if="modelValue">
                 <div class="modal__content" ref="modal">
-                    <Select />
-                    <Select />
-                    <Select />
-                    <Select />
-                    <Select />
-                    <Select />
+                    <div class="modal__head">
+                        
+                    </div>
+                    <div class="modal__body">
+                        <slot />
+                    </div>
+                    <div class="modal__footer">
+                        <button @click="toggle('cancel')">Cansel</button>
+                        <button @click="toggle('ok')">OK</button>
+                    </div>
                 </div>
             </div>
         </Transition>
@@ -16,8 +20,6 @@
 </template>
 
 <script setup lang="ts">
-import Select from './Select.vue'
-
 import { ref, defineModel, watch } from 'vue'
 import { onClickOutside } from '@vueuse/core'
 
@@ -37,6 +39,13 @@ watch(modelValue, () => {
         document.body.classList.remove('no-scroll')
     }
 })
+
+const emit = defineEmits(['cancel', 'ok'])
+
+const toggle = (type: any) => {
+    emit(type)
+    modelValue.value = false
+}
 </script>
 
 <style scoped lang="scss">
@@ -57,6 +66,9 @@ watch(modelValue, () => {
         background: #242424;
         color: #FFFFFF;
         min-width: 300px;
+    }
+
+    &__body {
         min-height: 100px;
         padding: 16px;
 
@@ -69,6 +81,15 @@ watch(modelValue, () => {
         max-height: 80vh;
         overflow-y: auto;
         overflow-x: hidden;
+    }
+
+    &__footer {
+        border-top: 1px solid #000;
+        padding: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: end;
+        gap: 16px;
     }
 }
 </style>

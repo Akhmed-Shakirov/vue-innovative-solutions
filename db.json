@@ -1,0 +1,156 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "Akhmed",
+      "age": 24
+    },
+    {
+      "id": 2,
+      "name": "Max",
+      "age": 23
+    },
+    {
+      "id": 3,
+      "name": "Tom",
+      "age": 25
+    }
+  ],
+  "status": [
+    {
+      "id": 1,
+      "name": "in_anticipation"
+    },
+    {
+      "id": 2,
+      "name": "in_the_freeze"
+    },
+    {
+      "id": 3,
+      "name": "in_progress"
+    },
+    {
+      "id": 4,
+      "name": "in_check"
+    },
+    {
+      "id": 5,
+      "name": "in_testing"
+    },
+    {
+      "id": 6,
+      "name": "completed"
+    }
+  ],
+  "todos": [
+    {
+      "id": 1,
+      "name": "Todo 1",
+      "state": 6,
+      "user": 1,
+      "order": 1
+    },
+    {
+      "id": 2,
+      "name": "Todo 2",
+      "state": 5,
+      "user": 1,
+      "order": 1
+    },
+    {
+      "id": 3,
+      "name": "Todo 3",
+      "state": 6,
+      "user": 1,
+      "order": 2
+    },
+    {
+      "id": 4,
+      "name": "Todo 4",
+      "state": 4,
+      "user": 1,
+      "order": 1
+    },
+    {
+      "id": 5,
+      "name": "Todo 5",
+      "state": 4,
+      "user": 1,
+      "order": 2
+    },
+    {
+      "id": 6,
+      "name": "Todo 6",
+      "state": 1,
+      "user": 1,
+      "order": 1
+    },
+    {
+      "id": 7,
+      "name": "Todo 7",
+      "state": 1,
+      "user": 1,
+      "order": 2
+    },
+    {
+      "id": 8,
+      "name": "Todo 8",
+      "state": 1,
+      "user": 1,
+      "order": 3
+    },
+    {
+      "id": 9,
+      "name": "Todo 9",
+      "state": 1,
+      "user": 1,
+      "order": 4
+    },
+    {
+      "id": 10,
+      "name": "Todo 10",
+      "state": 1,
+      "user": 1,
+      "order": 5
+    },
+    {
+      "id": 11,
+      "name": "Todo 11",
+      "state": 1,
+      "user": 1,
+      "order": 6
+    },
+    {
+      "name": "Todo 12",
+      "user": 1,
+      "date": "2023-12-28",
+      "order": 7,
+      "state": 1,
+      "id": 12
+    },
+    {
+      "user": 2,
+      "name": "Купить донер",
+      "date": "2023-12-27",
+      "order": 2,
+      "state": 6,
+      "id": 13
+    },
+    {
+      "name": "Закинуть бабки",
+      "date": "2023-12-27",
+      "user": 2,
+      "order": 3,
+      "state": 6,
+      "id": 14
+    },
+    {
+      "name": "Купить теслу",
+      "date": "2023-12-27",
+      "user": 2,
+      "order": 1,
+      "state": 6,
+      "id": 15
+    }
+  ]
+}

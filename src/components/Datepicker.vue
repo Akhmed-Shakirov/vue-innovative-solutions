@@ -4,7 +4,7 @@
         ref="datepicker"
         :class="{ 'datepicker__active' : isShow }"
     >
-        <Input v-model="value" mask="##.##.####" :label="label" :placeholder="placeholder" icon="calendar" @icon="toggle" />
+        <Input v-model="value" mask="##.##.####" :label="label" :placeholder="placeholder ?? '__.__.____'" icon="calendar" @icon="toggle" />
         
         <teleport to="body">
             <Transition>

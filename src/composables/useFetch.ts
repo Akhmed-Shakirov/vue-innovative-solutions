@@ -9,7 +9,7 @@ const isPagination = false
 // End Pagination
 
 // Default Variables
-const BASEURL = 'https://jsonplaceholder.typicode.com'
+const BASEURL = 'http://localhost:3000'
 
 const key = {
     refresh: 'refreshToken',

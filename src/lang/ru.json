@@ -1,3 +1,10 @@
 {
-    "hi": "Привет"
+    "hi": "Привет",
+
+    "in_anticipation": "В ожиданий",
+    "in_the_freeze": "В заморозке",
+    "in_progress": "В работе",
+    "in_check": "В проверке",
+    "in_testing": "В тестирований",
+    "completed": "Выполнена"
 }

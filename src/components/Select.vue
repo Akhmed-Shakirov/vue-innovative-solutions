@@ -1,12 +1,22 @@
 <template>
     <div class="select" ref="select">
-        <button class="select__head" @click="toggle">
-            {{ modelValue ? options?.find(el => el[keys[1]] == modelValue)[keys[0]] : 'Select' }}
+        <label class="field__label" v-if="label">
+            {{ label }}
+        </label>
+
+        <button class="select__head" :style="`opacity: ${modelValue ? '1' : '.6'}`" @click="toggle">
+            {{ modelValue ? options?.find(el => el[keys[1]] == modelValue)?.[keys[0]] : 'Select data...' }}
+            <Icon icon="chevron-down" :deg="isShow ? 'down' : ''" />
         </button>
         <teleport to="body">
             <Transition>
                 <div class="select__body" ref="selectOutside" :style="styleObject" v-if="isShow">
-                    <p v-for="item in options" :key="item[keys[1]]" @click="setValue(item)">{{ item[keys[0]] }}</p>
+                    <p 
+                        v-for="item in options" 
+                        :key="item[keys[1]]" 
+                        @click="setValue(item)"
+                        :class="{ 'active' : item[keys[1]] == modelValue }"
+                    >{{ item[keys[0]] }}</p>
                 </div>
             </Transition>
         </teleport>
@@ -14,6 +24,7 @@
 </template>
 
 <script setup lang="ts">
+import Icon from './Icon.vue'
 import { ref, computed, watch, defineModel } from 'vue'
 import { onClickOutside, useMouseInElement, useWindowSize, watchDebounced } from '@vueuse/core'
 
@@ -22,6 +33,7 @@ const modelValue = defineModel<string | number | null>()
 interface Props {
     options?: any[]
     keys?: string[]
+    label?: string
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -29,7 +41,12 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const setValue = (item: any) => {
-    modelValue.value = item[props.keys[1]]
+    if (modelValue.value == item[props.keys[1]]) {
+        modelValue.value = null
+    } else {
+        modelValue.value = item[props.keys[1]]
+    }
+
     isShow.value = false
 }
 
@@ -76,24 +93,49 @@ props
 
 <style scoped lang="scss">
 .select {
+    width: 100%;
     position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 8px;
+
+    &__head {
+        width: 100%;
+        text-align: left;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        transition: .2s;
+        
+        &:hover {
+            opacity: 1 !important;
+        }
+    }
     
     &__body {
         z-index: 1;
         width: 200px;
         position: absolute;
-        padding: 0.6em 1.2em;
+        padding: 6px 0;
         border-radius: 8px;
         border: 1px solid transparent;
         background-color: #1a1a1a;
 
         display: flex;
         flex-direction: column;
-        gap: 12px;
+        gap: 4px;
 
         p {
             margin: 0;
             color: #ffffff;
+            cursor: pointer;
+            padding: 6px 18px;
+            transition: .2s;
+        }
+
+        p:hover, .active {
+            background: #000;
         }
     }
 }

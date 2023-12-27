@@ -8,7 +8,7 @@
             class="field__main"
             v-model="modelValue"
             type="text" 
-            :placeholder="placeholder"
+            :placeholder="placeholder ?? 'Enter data...'"
             @keyup.enter="$emit('enter')"
             v-maska:[masks]
         >

@@ -1,38 +1,121 @@
 <template>
-    <div class="row">
-        <div class="col-3" v-for="(value, key) in akhmed" :key="key">
-            <h3>{{ key }}</h3>
-            <draggable class="list-group" :list="value" group="akhmed" itemKey="name">
-                <template #item="{ element }">
-                    <div class="list-group-item">{{ element.name }} {{ element.id }}</div>
-                </template>
-            </draggable>
-        </div>
+    <div class="d-flex">
+        <button @click="isModal = !isModal">New Todo</button>
+        <button @click="isAdmin = !isAdmin">Admin: {{ isAdmin }}</button>
     </div>
+
+    <Modal v-model="isModal" @ok="postTodo">
+        <Input v-model="todo.name" label="Title" style="width: 250px" />
+        <Datepicker v-model="todo.date" label="Date" style="width: 250px" isActiveDay isMin />
+        <Select v-model="todo.user" :options="users" label="User" :keys="['name', 'id']" style="width: 250px" />
+    </Modal>
+
+    <template v-for="user in main_todos" :key="user.id">
+        <h3>{{ user.name }}</h3>
+        <div class="row">
+            <div class="col-3" v-for="state in user.status" :key="state.id">
+                <h3>{{ $t(state.name ?? '') }}</h3>
+                <draggable class="list-group" :list="state.todos.sort((a: any, b: any) => a.order - b.order)" @change="(evt: any) => setTodo(evt, state.todos, state.name, user.id)" :group="isAdmin ? 'admin' : user.name" itemKey="id">
+                    <template #item="{ element }">
+                        <div class="list-group-item">{{ element.name }}</div>
+                    </template>
+                </draggable>
+            </div>
+        </div>
+    </template>
 </template>
   
 <script setup lang="ts">
+import Modal from '../components/Modal.vue'
+import Input from '../components/Input.vue'
+import Select from '../components/Select.vue'
+import Datepicker from '../components/Datepicker.vue'
 import draggable from 'vuedraggable'
-import { ref } from 'vue'
 
-const akhmed = ref<any>({
-    draggable1: [
-        { name: 'Todo', id: 1 },
-        { name: 'Todo', id: 2 },
-        { name: 'Todo', id: 3 },
-        { name: 'Todo', id: 4 }
-    ],
-    draggable2: [
-        { name: 'Todo', id: 5 },
-        { name: 'Todo', id: 6 },
-        { name: 'Todo', id: 7 }
-    ],
-    draggable3: [
-        { name: 'Todo', id: 8 },
-        { name: 'Todo', id: 9 },
-        { name: 'Todo', id: 10 }
-    ]
+import { ref, computed, onMounted } from 'vue'
+import useFetch from '../composables/useFetch'
+
+const isModal = ref<boolean>(false)
+const todo = ref<any>({})
+
+const isAdmin = ref<boolean>(true)
+
+const users = ref<any[]>([])
+const status = ref<any[]>([])
+const todos = ref<any[]>([])
+const oldTodos = ref<any[]>([])
+
+onMounted(async () => {
+    users.value = await useFetch('users')
+    status.value = await useFetch('status')
+    todos.value = await useFetch('todos')
+    oldTodos.value = JSON.parse(JSON.stringify(todos.value))
 })
+
+const main_todos = computed<any[]>(() => {
+    return users.value.map((user: any) => ({ 
+        ...user, 
+        status: status.value.map((state: any) => ({ 
+            ...state, 
+            todos: todos.value
+                            .filter((todo: any) => todo.user === user.id)
+                            .filter((todo: any) => todo.state === state.id)
+        })) 
+    }))
+})
+
+const changeOrder = async (array: any[]) => {
+    const newArray = array.map((el: any, index: number) => ({ ...el, order: index + 1 }))
+
+    for (const item of newArray) {
+        const oldItem = oldTodos.value.find((el: any) => el.id == item.id)
+        if (oldItem.order != item.order && oldItem.state == item.state) {
+            const newTodo = await useFetch(`todos/${item.id}`, 'patch', { order: item.order })
+            const itemIndex = todos.value.findIndex((el: any) => el.id == item.id)
+            todos.value.splice(itemIndex, 1, newTodo)
+            oldTodos.value.splice(itemIndex, 1, newTodo)
+        }
+    }
+}
+
+const addedTodo = async (array: any[], todo: any, state: string, user: number) => {
+    const stateId = status.value.find((el: any) => el.name == state).id
+    const index = array.findIndex((el: any) => el.id == todo.id)
+    const newTodo = { ...todo, state: stateId }
+
+    let newArray = array
+    newArray.splice(index, 1, newTodo)
+    newArray = newArray.map((el: any, index: number) => ({ ...el, order: index + 1 }))
+
+    for (const item of newArray) {
+        const oldItem = oldTodos.value.find((el: any) => el.id == item.id)
+        if (oldItem.order != item.order || oldItem.state != stateId || oldItem.user != user) {
+            const newTodo = await useFetch(`todos/${item.id}`, 'patch', { order: item.order, state: item.state, user })
+            const itemIndex = todos.value.findIndex((el: any) => el.id == item.id)
+            todos.value.splice(itemIndex, 1, newTodo)
+            oldTodos.value.splice(itemIndex, 1, newTodo)
+        }
+    }
+}
+
+const setTodo = (evt: any, tasks: any, state: string, userId: number) => {
+    if (evt.added) {
+        addedTodo(tasks, evt.added.element, state, userId)
+    }
+    
+    if (evt.removed || evt.moved) {
+        changeOrder(tasks)
+    }
+}
+
+const postTodo = async () => {
+    const order = main_todos.value.find((user: any) => user.id == todo.value.user)?.status?.[0]?.todos?.length + 1
+
+    const newTodo = await useFetch('todos', 'post', { ...todo.value, order, state: 1 })
+    todos.value.push(newTodo)
+    oldTodos.value.push(newTodo)
+    todo.value = {}
+}
 </script>
   
 <style scoped lang="scss">
@@ -42,6 +125,7 @@ const akhmed = ref<any>({
 
     .list-group {
         width: 300px;
+        min-height: 200px;
         margin-top: 15px;
         display: flex;
         flex-direction: column;
