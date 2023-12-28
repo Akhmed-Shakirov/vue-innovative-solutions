@@ -34,9 +34,9 @@ onClickOutside(modal, (event: any) => {
 
 watch(modelValue, () => {
     if (modelValue.value) {
-        document.body.classList.add('no-scroll')
+        // document.body.classList.add('no-scroll')
     } else {
-        document.body.classList.remove('no-scroll')
+        // document.body.classList.remove('no-scroll')
     }
 })
 
@@ -69,6 +69,7 @@ const toggle = (type: any) => {
     }
 
     &__body {
+        width: 400px;
         min-height: 100px;
         padding: 16px;
 

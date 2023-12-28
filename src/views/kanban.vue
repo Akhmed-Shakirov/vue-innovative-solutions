@@ -5,9 +5,9 @@
     </div>
 
     <Modal v-model="isModal" @ok="postTodo">
-        <Input v-model="todo.name" label="Title" style="width: 250px" />
-        <Datepicker v-model="todo.date" label="Date" style="width: 250px" isActiveDay isMin />
-        <Select v-model="todo.user" :options="users" label="User" :keys="['name', 'id']" style="width: 250px" />
+        <Input v-model="todo.name" label="Title" />
+        <Datepicker v-model="todo.date" label="Date" isActiveDay isMin />
+        <Select v-model="todo.user" :options="users" label="User" :keys="['name', 'id']" />
     </Modal>
 
     <template v-for="user in main_todos" :key="user.id">
@@ -15,7 +15,7 @@
         <div class="row">
             <div class="col-3" v-for="state in user.status" :key="state.id">
                 <h3>{{ $t(state.name ?? '') }}</h3>
-                <draggable class="list-group" :list="state.todos.sort((a: any, b: any) => a.order - b.order)" @change="(evt: any) => setTodo(evt, state.todos, state.name, user.id)" :group="isAdmin ? 'admin' : user.name" itemKey="id">
+                <draggable class="list-group" :list="state.todos.sort((a: any, b: any) => a.order - b.order)" @change="(evt: any) => changesTodo(evt, state.todos, state.name, user.id)" :group="isAdmin ? 'admin' : user.name" itemKey="id">
                     <template #item="{ element }">
                         <div class="list-group-item">{{ element.name }}</div>
                     </template>
@@ -38,7 +38,7 @@ import useFetch from '../composables/useFetch'
 const isModal = ref<boolean>(false)
 const todo = ref<any>({})
 
-const isAdmin = ref<boolean>(true)
+const isAdmin = ref<boolean>(false)
 
 const users = ref<any[]>([])
 const status = ref<any[]>([])
@@ -64,7 +64,16 @@ const main_todos = computed<any[]>(() => {
     }))
 })
 
-const changeOrder = async (array: any[]) => {
+const postTodo = async () => {
+    const order = main_todos.value.find((user: any) => user.id == todo.value.user)?.status?.[0]?.todos?.length + 1
+
+    const newTodo = await useFetch('todos', 'post', { ...todo.value, order, state: 1 })
+    todos.value.push(newTodo)
+    oldTodos.value.push(newTodo)
+    todo.value = {}
+}
+
+const orderTodo = async (array: any[]) => {
     const newArray = array.map((el: any, index: number) => ({ ...el, order: index + 1 }))
 
     for (const item of newArray) {
@@ -78,7 +87,7 @@ const changeOrder = async (array: any[]) => {
     }
 }
 
-const addedTodo = async (array: any[], todo: any, state: string, user: number) => {
+const editTodo = async (array: any[], todo: any, state: string, user: number) => {
     const stateId = status.value.find((el: any) => el.name == state).id
     const index = array.findIndex((el: any) => el.id == todo.id)
     const newTodo = { ...todo, state: stateId }
@@ -98,23 +107,14 @@ const addedTodo = async (array: any[], todo: any, state: string, user: number) =
     }
 }
 
-const setTodo = (evt: any, tasks: any, state: string, userId: number) => {
+const changesTodo = (evt: any, tasks: any, state: string, userId: number) => {
     if (evt.added) {
-        addedTodo(tasks, evt.added.element, state, userId)
+        editTodo(tasks, evt.added.element, state, userId)
     }
     
     if (evt.removed || evt.moved) {
-        changeOrder(tasks)
+        orderTodo(tasks)
     }
-}
-
-const postTodo = async () => {
-    const order = main_todos.value.find((user: any) => user.id == todo.value.user)?.status?.[0]?.todos?.length + 1
-
-    const newTodo = await useFetch('todos', 'post', { ...todo.value, order, state: 1 })
-    todos.value.push(newTodo)
-    oldTodos.value.push(newTodo)
-    todo.value = {}
 }
 </script>
   
@@ -124,7 +124,7 @@ const postTodo = async () => {
     gap: 30px;
 
     .list-group {
-        width: 300px;
+        min-width: 150px;
         min-height: 200px;
         margin-top: 15px;
         display: flex;
