@@ -12,7 +12,7 @@
 	
 	<br>
 	files : Array
-	<Files v-model="files" />
+	<Files v-model="files" limit="3" />
 </template>
 
 <script setup lang="ts">

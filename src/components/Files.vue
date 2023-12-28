@@ -234,18 +234,18 @@ onChange((files: any) => setFiles(files) )
 		font-weight: 500;
 		position: absolute;
 		z-index: 1;
-		top: -10px;
+		top: -20px;
 		
-		&:before {
-			top: 8px;
-			left: -2px;
-			position: absolute;
-			content: "";
-			width: 104%;
-			height: 3px;
-			background: #ffffff;
-			z-index: -1;
-		}
+		// &:before {
+		// 	top: 8px;
+		// 	left: -2px;
+		// 	position: absolute;
+		// 	content: "";
+		// 	width: 104%;
+		// 	height: 3px;
+		// 	background: #ffffff;
+		// 	z-index: -1;
+		// }
 	}
 
 	&__label {
