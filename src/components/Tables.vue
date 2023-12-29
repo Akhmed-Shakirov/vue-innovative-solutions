@@ -13,27 +13,42 @@
         </div>
 
         <div class="tables__body">
-            <div class="tables__items">
-
-                <div class="tables__item" v-for="itemKeys in isGroup ? keys : [ { children: keys, name: '' } ]" :key="itemKeys?.name">
-                    <div class="tables__name" v-if="isGroup">
-                        {{ itemKeys?.name }}
-                    </div>
-
-                    <table>
-                        <tr class="tables__tr">
-                            <th class="tables__th" v-for="key in itemKeys?.children" :key="key?.name">
-                                {{ key?.name ?? '---' }}
+            <div :style="`${ isFull ? 'width: 100%;' : '' }`">
+                <table class="tables__main" :cellpadding="names?.length">
+                    <tr class="tables__tr" v-if="isGroup">
+                        <th class="tables__th tables__th-name" v-for="itemKeys in group" :key="itemKeys?.name" :colspan="itemKeys?.children?.length">
+                            {{ itemKeys?.name }}
+                        </th>
+                    </tr>
+                    
+                    <tr class="tables__tr">
+                        <template v-for="key in names" :key="key?.name">
+                            <th class="tables__th">
+                                {{ key?.title }}
                             </th>
-                        </tr>
-                        <tr class="tables__tr" v-for="(item, index) in data" :key="index">
-                            <td class="tables__td" v-for="key in itemKeys?.children" :key="key?.name">
-                                {{ item?.[key?.name] ?? '---' }}
+                        </template>
+                    </tr>
+
+                    <template v-for="(item, index) in data" :key="index">
+                        <tr 
+                            class="tables__tr tables__tr-hover" 
+                            :class="{ 'tables__tr-active' : index + 1 == active }" 
+                            @click="active = index + 1"
+                        >
+                            <td class="tables__td" v-for="key in names" :key="key?.name">
+                                {{ item?.[key?.name] || '---' }}
                             </td>
                         </tr>
-                    </table>
-                </div>
 
+                        <template v-if="item?.data?.length && false">
+                            <tr class="tables__tr tables__tr-hover" v-for="(el, i) in item?.data" :key="i">
+                                <td class="tables__td" v-for="key in names" :key="key?.name">
+                                    {{ el?.[key?.name] || '---' }}
+                                </td>
+                            </tr>
+                        </template>
+                    </template>
+                </table>
             </div>
         </div>
 
@@ -54,15 +69,8 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 
-const method = (key?: string, item?: any): string => {
-    if (item) {
-        return item
-    } else {
-        return key ? key : '---'
-    }
-}
-
-const data = ref([
+const isFull = ref<boolean>(false)
+const data = ref<any[]>([
     {
         body1: 'body1 - 1 body1 - 1',
         body2: 'body2 - 1 body2 - 1',
@@ -109,40 +117,70 @@ const data = ref([
         body13: '',
     },
 ])
+const keys = ref<any[]>([
+    { name: 'body1', title: 'Р/М' },
+    { name: 'body2', title: 'Дата' },
+    { name: 'body3', title: 'Действия' },
+    // { name: 'body4', title: 'Круг' },
+    // { name: 'body5', title: 'Показания' },
+    // { name: 'body6', title: 'Потребление за период' },
+    // { name: 'body7', title: 'Фото' },
+    // { name: 'body8', title: 'Типичная ситуация' },
 
-const keys = ref([
-    { 
-        name: 'Новое значение', 
-        children: [ 
-            { name: 'body1', title: 'Р/М' },
-            { name: 'body2', title: 'Дата' },
-            { name: 'body3', title: 'Действия' },
-            { name: 'body4', title: 'Круг' },
-            { name: 'body5', title: 'Показания' },
-            { name: 'body6', title: 'Потребление за период' },
-            { name: 'body7', title: 'Фото' },
-            { name: 'body8', title: 'Типичная ситуация' },
-        ] 
-    },
-    { 
-        name: 'Назначение', 
-        children: [ 
-            { name: 'body9', title: 'Введено' }, 
-            { name: 'body10', title: 'Ввел' }, 
-            { name: 'body11', title: 'Основание' } 
-        ] 
-    },
-    { 
-        name: 'Забраковка', 
-        children: [ 
-            { name: 'body12', title: 'Забракованно' }, 
-            { name: 'body13', title: 'Забраковал' }, 
-        ] 
-    },
+    // { name: 'body9', title: 'Введено' }, 
+    // { name: 'body10', title: 'Ввел' }, 
+    // { name: 'body11', title: 'Основание' },
+
+    // { name: 'body12', title: 'Забракованно' }, 
+    // { name: 'body13', title: 'Забраковал' }, 
+
+    // { 
+    //     name: 'Новое значение', 
+    //     children: [ 
+    //         { name: 'body1', title: 'Р/М' },
+    //         { name: 'body2', title: 'Дата' },
+    //         { name: 'body3', title: 'Действия' },
+    //         { name: 'body4', title: 'Круг' },
+    //         { name: 'body5', title: 'Показания' },
+    //         { name: 'body6', title: 'Потребление за период' },
+    //         { name: 'body7', title: 'Фото' },
+    //         { name: 'body8', title: 'Типичная ситуация' },
+    //     ] 
+    // },
+    // { 
+    //     name: 'Назначение', 
+    //     children: [ 
+    //         { name: 'body9', title: 'Введено' }, 
+    //         { name: 'body10', title: 'Ввел' }, 
+    //         { name: 'body11', title: 'Основание' },
+    //     ] 
+    // },
+    // { 
+    //     name: 'Забраковка', 
+    //     children: [ 
+    //         { name: 'body12', title: 'Забракованно' }, 
+    //         { name: 'body13', title: 'Забраковал' }, 
+    //     ] 
+    // },
+    // { 
+    //     name: 'Забраковка', 
+    //     children: [ 
+    //         { name: 'body12', title: 'Забракованно' }, 
+    //         { name: 'body13', title: 'Забраковал' }, 
+    //     ] 
+    // },
 ])
 
+
+const active = ref<number>(0)
 const isGroup = computed<boolean>(() => {
     return !!keys.value[0]?.children?.length
+})
+const group = computed<any[]>(() => {
+    return isGroup.value ? keys.value : [ { children: keys.value, name: '' } ]
+})
+const names = computed<any[]>(() => {
+    return group.value.reduce((acc, el) => ( acc = [...acc, ...el?.children] ), [])
 })
 </script>
 
@@ -175,46 +213,60 @@ const isGroup = computed<boolean>(() => {
         }
     }
     
-    &__body {
-        border-block: 1px solid #606060;
+    &__haed {
+        border-bottom: 1px solid #606060;
     }
-    
-    &__items {
+
+    &__body {
         width: 100%;
         display: flex;
         overflow-x: scroll;
+        padding-bottom: 10px;
     }
-    
-    &__item {
-        width: max-content;
 
-        table {
-            width: max-content;
-            border-spacing: 0;
-            
-            tr ~ tr > td, th {
-                border-top: 1px solid #606060;
-                border-right: 1px solid #606060;
-            }
+    &__main {
+        min-width: 100%;
+        width: max-content;
+        border-spacing: 0;
+        border-bottom: 1px solid #606060;
+        
+        tr ~ tr > td, th {
+            border-top: 1px solid #606060;
+            border-right: 1px solid #606060;
         }
     }
 
-    &__name {
-        font-size: 15px;
-        border-right: 1px solid #606060;
-        text-transform: uppercase;
-    }
-    
-    &__tr, &__td {
-        text-align: left;
+    &__footer {
+        margin-top: 10px;
+        border-top: 1px solid #606060;
     }
 
-    &__th, &__td, &__name {
+    &__tr {
+        width: max-content;
+
+        &-hover:hover {
+            background: #272727;
+        }
+
+        &-active, &-active:hover {
+            background: #343434;
+        }
+    }
+
+    &__th, &__td {
+        min-width: max-content;
         padding: 8px;
         font-size: 12px;
         font-style: normal;
         font-weight: 400;
         height: 18px;
+        text-align: left;
+
+        &-name {
+            text-align: center;
+            font-size: 15px;
+            text-transform: uppercase;
+        }
     }
 }
 </style>

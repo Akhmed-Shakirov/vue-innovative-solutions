@@ -53,16 +53,16 @@
     {
       "id": 2,
       "name": "Todo 2",
-      "state": 5,
+      "state": 6,
       "user": 1,
-      "order": 1
+      "order": 2
     },
     {
       "id": 3,
       "name": "Todo 3",
-      "state": 6,
+      "state": 5,
       "user": 1,
-      "order": 2
+      "order": 1
     },
     {
       "id": 4,
@@ -140,8 +140,8 @@
       "name": "Закинуть бабки",
       "date": "2023-12-27",
       "user": 2,
-      "order": 3,
-      "state": 6,
+      "order": 1,
+      "state": 4,
       "id": 14
     },
     {

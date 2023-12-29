@@ -92,13 +92,13 @@ const setFiles = (event: any) => {
 			if (props.isGetId) {
 				const formData = new FormData()
 				formData.append('file', event[0]);
-				axios.post('/files/documents/', formData).then((res) => {
-					emit('update:modelValue', res.data.id)
-					if (oldId.value) {
-						axios.delete(`/files/documents/${oldId.value}/`)
-						oldId.value = null
-					}
-				})
+				// axios.post('/files/documents/', formData).then((res) => {
+				// 	emit('update:modelValue', res.data.id)
+				// 	if (oldId.value) {
+				// 		axios.delete(`/files/documents/${oldId.value}/`)
+				// 		oldId.value = null
+				// 	}
+				// })
 			} else {
 				emit('update:modelValue', event[0])
 			}

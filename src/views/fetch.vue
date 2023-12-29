@@ -41,9 +41,8 @@ const set_item = (event: any) => {
     item.value = JSON.parse(JSON.stringify(event))
     old_item.value = JSON.parse(JSON.stringify(event))
 }
-const posts_request = async (method: string = 'GET', filter: any = '') => {
-    let api: any = 'comments'
-    method = method.toLocaleUpperCase()
+const posts_request = async (method: string = 'get', filter: any = '') => {
+    let api: any = 'todos'
 
     if (typeof filter == 'string') {
         api = [`${api}${filter}`]
@@ -73,7 +72,7 @@ posts_request()
 
 const data = ref<any>([])
 const get_data = async () => {
-    data.value = await useFetch(['comments', { postId: 1 }])
+    data.value = await useFetch(['todos', { id: 1 }])
 }
 get_data()
 </script>
