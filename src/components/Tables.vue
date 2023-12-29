@@ -13,7 +13,7 @@
         </div>
 
         <div class="tables__body">
-            <div :style="`${ isFull ? 'width: 100%;' : '' }`">
+            <div :style="isFull ? 'width: 100%' : ''">
                 <table class="tables__main" :cellpadding="names?.length">
                     <tr class="tables__tr" v-if="isGroup">
                         <th class="tables__th tables__th-name" v-for="itemKeys in group" :key="itemKeys?.name" :colspan="itemKeys?.children?.length">
