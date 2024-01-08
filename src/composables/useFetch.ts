@@ -1,9 +1,12 @@
 // Start Pagination
-// import { storeToRefs } from 'pinia'
 // import { usePaginationt } from '../store/pagination'
 
 // const { size, page } = storeToRefs(usePaginationt())
 // const { setPaginationt } = usePaginationt()
+
+import { storeToRefs } from 'pinia'
+import { useTokenStore } from '../stores/token'
+const { access_token, refresh_token } = storeToRefs(useTokenStore())
 
 const isPagination = false
 // End Pagination
@@ -74,7 +77,7 @@ const fetchData = (apiData: string, paramsData: any): any => {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ [key.refresh]: localStorage.refresh_token })
+                body: JSON.stringify({ [key.refresh]: refresh_token.value })
             }).then(async (res) => {
                 // Invalid refresh token
                 if (res.status === 401 || res.status === 400) {
@@ -84,13 +87,13 @@ const fetchData = (apiData: string, paramsData: any): any => {
 
                 // Everything is fine, let's ask again
                 const refresh_data = await res.json()
-                localStorage.access_token = refresh_data[key.access]
+                access_token.value = refresh_data[key.access]
 
                 if (refresh_data[key.refresh]) {
-                    localStorage.refresh_token = refresh_data[key.refresh]
+                    refresh_token.value = refresh_data[key.refresh]
                 }
 
-                paramsData.headers.Authorization = `Bearer ${localStorage.access_token}`
+                paramsData.headers.Authorization = `Bearer ${access_token.value}`
 
                 return fetchData(apiData, paramsData)
             })
@@ -120,8 +123,8 @@ const useFetch = async (
     }
 
     // Token verification
-    if (!!localStorage.access_token) { // true: Additional check even if there is a token
-        params.headers.Authorization = (true ? `Bearer ${localStorage.access_token}` : undefined)
+    if (!!access_token.value) { // true: Additional check even if there is a token
+        params.headers.Authorization = (true ? `Bearer ${access_token.value}` : undefined)
     }
 
     // Request body

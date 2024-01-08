@@ -72,7 +72,7 @@ posts_request()
 
 const data = ref<any>([])
 const get_data = async () => {
-    data.value = await useFetch(['todos', { id: 1 }])
+    data.value = await useFetch(['todos', {}])
 }
 get_data()
 </script>

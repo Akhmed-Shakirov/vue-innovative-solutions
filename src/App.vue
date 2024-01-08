@@ -9,7 +9,7 @@
         <router-link to="/kanban">Kanban</router-link>
         <router-link to="/files">Files</router-link>
 
-        <div class="store">{{ count }}</div>
+        <div class="store" @click="access_token = '11133', refresh_token = '22233'">{{ count }}</div>
     </header>
 
     <router-view />
@@ -18,9 +18,28 @@
 </template>
 
 <script setup lang="ts">
+import { useStorage } from '@vueuse/core'
 import { useCountStore } from './stores/count'
+import { useTokenStore } from './stores/token'
 import { storeToRefs } from 'pinia'
+
 const { count } = storeToRefs(useCountStore())
+const { access_token, refresh_token } = storeToRefs(useTokenStore())
+
+const access = useStorage('access_token', '')
+const refresh = useStorage('refresh_token', '')
+
+window.addEventListener('load', () => {
+  access_token.value = access.value.slice()
+  refresh_token.value = refresh.value.slice()
+  access.value = ''
+  refresh.value = ''
+})
+
+window.addEventListener('beforeunload', () => {
+  access.value = access_token.value.slice()
+  refresh.value = refresh_token.value.slice()
+})
 </script>
 
 <style scoped lang="scss">
