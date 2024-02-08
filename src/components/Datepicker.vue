@@ -87,11 +87,10 @@
 <script setup lang="ts">
 import Input from './Input.vue'
 import Icon from './Icon.vue'
+import moment from 'moment'
 
 import { ref, computed, watch, defineModel } from 'vue'
 import { onClickOutside, useMouseInElement, useWindowSize, watchDebounced } from '@vueuse/core'
-import moment from 'moment'
-
 
 const props = defineProps<{
     label?: string
@@ -145,6 +144,9 @@ watch(value, () => {
     } else {
         modelValue.value = null
     }
+})
+watch(modelValue, () => {
+    if (!modelValue.value) value.value = null
 })
 // Variables
 

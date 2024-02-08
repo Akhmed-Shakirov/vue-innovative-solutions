@@ -30,8 +30,8 @@
 <script setup lang="ts">
 import UIIcon from './Icon.vue'
 
-import {ref, computed, onMounted} from 'vue'
-import {useDropZone, useFileDialog} from '@vueuse/core'
+import { ref, computed, onMounted, watch } from 'vue'
+import { useDropZone, useFileDialog } from '@vueuse/core'
 
 const props = defineProps<{
 	modelValue?: any
@@ -47,12 +47,14 @@ const props = defineProps<{
 const emit = defineEmits(['update:modelValue'])
 
 const getTypes = computed<string[]>(() => {
-    return props?.types ? props?.types : ['pdf', 'png', 'jpg', 'jpeg', 'bmp', 'doc', 'docx']
+    return props?.types ? props?.types : ['pdf', 'png', 'jpg', 'jpeg', 'bmp', 'doc', 'docx', 'svg']
 })
 const getFormat = (name: any): string => {
 	let format = name.split('.')?.at(-1)
 	
 	if (['doc', 'docx'].includes(format)) format = 'doc'
+
+	if (['jpg', 'jpeg'].includes(format)) format = 'jpg'
 	
 	return format
 }
@@ -131,6 +133,11 @@ const downloadFile = async (url: string, fileName: string = 'downloaded_file') =
 		console.error('Ошибка при скачивании файла:', error)
 	}
 }
+
+watch(() => props.modelValue, () => {
+    if (!props.modelValue && !Array.isArray(props.modelValue)) files.value = []
+    if (Array.isArray(props.modelValue) && !props.modelValue.length) files.value = []
+}, { deep: true })
 
 onMounted(() => {
 	if (Array.isArray(props.modelValue)) {
