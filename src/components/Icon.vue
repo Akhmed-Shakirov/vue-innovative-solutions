@@ -4,7 +4,7 @@
 </template>
 
 <script setup lang="ts">
-import {StyleValue, computed} from "vue";
+import { StyleValue, computed } from 'vue'
 
 const props = defineProps<{
     icon: string

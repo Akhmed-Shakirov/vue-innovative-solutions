@@ -26,10 +26,7 @@
 </template>
   
 <script setup lang="ts">
-import Modal from '../components/Modal.vue'
-import Input from '../components/Input.vue'
-import Select from '../components/Select.vue'
-import Datepicker from '../components/Datepicker.vue'
+import { Modal, Input, Select, Datepicker } from '../components'
 import draggable from 'vuedraggable'
 
 import { ref, computed, onMounted } from 'vue'

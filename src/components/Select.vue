@@ -24,7 +24,7 @@
 </template>
 
 <script setup lang="ts">
-import Icon from './Icon.vue'
+import { Icon } from './index.ts'
 import { ref, computed, watch, defineModel } from 'vue'
 import { onClickOutside, useMouseInElement, useWindowSize, watchDebounced } from '@vueuse/core'
 

@@ -30,7 +30,7 @@
 </template>
 
 <script setup lang="ts">
-import Icon from './Icon.vue'
+import { Icon } from './index.ts'
 
 import { ref, defineModel, computed } from 'vue'
 import { vMaska } from 'maska'

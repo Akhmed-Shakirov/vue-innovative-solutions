@@ -85,8 +85,7 @@
 </template>
 
 <script setup lang="ts">
-import Input from './Input.vue'
-import Icon from './Icon.vue'
+import { Input, Icon } from './index.ts'
 import moment from 'moment'
 
 import { ref, computed, watch, defineModel } from 'vue'

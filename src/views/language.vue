@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-import Select from '../components/Select.vue'
+import { Select } from '../components'
 
 import { ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'

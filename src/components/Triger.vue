@@ -6,7 +6,7 @@
 </template>
 
 <script setup lang="ts">
-import Icon from './Icon.vue'
+import { Icon } from './index.ts'
 
 import { ref, watch } from 'vue'
 import { useInfiniteScroll } from '@vueuse/core'

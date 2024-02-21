@@ -19,9 +19,7 @@
 </template>
 
 <script setup lang="ts">
-import Icon from '../components/Icon.vue'
-import Input from '../components/Input.vue'
-import Triger from '../components/Triger.vue'
+import { Icon, Input, Triger } from '../components'
 
 import { ref, computed } from  'vue'
 import { useClipboard } from '@vueuse/core'

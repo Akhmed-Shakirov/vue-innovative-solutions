@@ -16,7 +16,7 @@
 </template>
 
 <script setup lang="ts">
-import Files from '../components/Files.vue'
+import { Files } from '../components'
 
 import { ref } from 'vue'
 

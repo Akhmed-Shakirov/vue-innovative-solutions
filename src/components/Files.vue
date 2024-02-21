@@ -19,16 +19,16 @@
 	<div class="files__items" v-if="files?.length">
 		<div class="files__item" v-for="(item, index) in files" :key="item">
 			<div @click="item?.link && downloadFile(item?.link, item?.name)">
-				<UIIcon :icon="`${getFormat(item?.name)}.svg`" class="type" />
+				<Icon :icon="`${getFormat(item?.name)}.svg`" class="type" />
 				<p>{{ item?.name }}</p>
 			</div>
-			<UIIcon icon="trash" class="trash" @click="removeFile(index)" />
+			<Icon icon="trash" class="trash" @click="removeFile(index)" />
 		</div>
 	</div>
 </template>
 
 <script setup lang="ts">
-import UIIcon from './Icon.vue'
+import { Icon } from './index.ts'
 
 import { ref, computed, onMounted, watch } from 'vue'
 import { useDropZone, useFileDialog } from '@vueuse/core'

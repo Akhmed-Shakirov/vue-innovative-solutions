@@ -36,13 +36,7 @@
 </template>
 
 <script setup lang="ts">
-import Flap from '../components/Flap.vue'
-import Modal from '../components/Modal.vue'
-import Icon from '../components/Icon.vue'
-import Input from '../components/Input.vue'
-import Select from '../components/Select.vue'
-import Datepicker from '../components/Datepicker.vue'
-import Files from '../components/Files.vue'
+import { Flap, Modal, Icon, Input, Select, Datepicker, Files } from '../components'
 
 import { ref, watch } from 'vue'
 import useFileLink from '../composables/useFileLink'
