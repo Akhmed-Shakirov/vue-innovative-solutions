@@ -39,7 +39,7 @@
 import { Flap, Modal, Icon, Input, Select, Datepicker, Files } from '../components'
 
 import { ref, watch } from 'vue'
-import useFileLink from '../composables/useFileLink'
+import { useFileLink } from '../composables'
 
 const isModal = ref<boolean>(false)
 

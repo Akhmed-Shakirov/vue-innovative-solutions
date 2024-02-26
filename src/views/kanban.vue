@@ -26,11 +26,10 @@
 </template>
   
 <script setup lang="ts">
-import { Modal, Input, Select, Datepicker } from '../components'
-import draggable from 'vuedraggable'
+import { Modal, Input, Select, Datepicker, draggable } from '../components'
 
 import { ref, computed, onMounted } from 'vue'
-import useFetch from '../composables/useFetch'
+import { useFetch } from '../composables'
 
 const isModal = ref<boolean>(false)
 const todo = ref<any>({})

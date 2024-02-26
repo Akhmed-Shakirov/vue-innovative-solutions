@@ -22,7 +22,7 @@
 <script setup lang="ts">
 import { Rmb } from '../components'
 
-import { useCountStore } from '../stores/count'
+import { useCountStore } from '../stores'
 import { storeToRefs } from 'pinia'
 
 const { count } = storeToRefs(useCountStore())

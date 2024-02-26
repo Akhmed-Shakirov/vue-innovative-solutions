@@ -27,8 +27,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import useService from '../composables/useService'
-import useFetch from '../composables/useFetch'
+import { useService, useFetch } from '../composables'
 
 const item = ref<any>({})
 const old_item = ref<any>({})

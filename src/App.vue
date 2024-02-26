@@ -19,8 +19,7 @@
 
 <script setup lang="ts">
 import { useStorage } from '@vueuse/core'
-import { useCountStore } from './stores/count'
-import { useTokenStore } from './stores/token'
+import { useCountStore, useTokenStore } from './stores'
 import { storeToRefs } from 'pinia'
 
 const { count } = storeToRefs(useCountStore())
