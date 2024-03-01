@@ -332,7 +332,12 @@ watch(width, () => {
         border-bottom: 1px solid #606060;
 
         p {
+            transition: .2s;
             cursor: pointer;
+
+            &:hover {
+                opacity: .5;
+            }
         }
 
         i {
@@ -380,6 +385,7 @@ watch(width, () => {
             cursor: pointer;
             user-select: none;
             border-radius: 6px;
+            transition: .2s;
 
             &:hover {
                 background: #2f2f2f;

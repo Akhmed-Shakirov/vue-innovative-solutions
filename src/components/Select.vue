@@ -4,11 +4,11 @@
             {{ label }}
         </label>
 
-        <button class="select__head" :style="`opacity: ${modelValue ? '1' : '.6'}`" @click="toggle">
+        <button class="select__head" :class="{ 'select__head-value' : modelValue }" @click="toggle">
             {{ modelValue ? options?.find(el => el[keys[1]] == modelValue)?.[keys[0]] : 'Select data...' }}
             <Icon icon="chevron-down" :deg="isShow ? 'down' : ''" />
         </button>
-        <teleport to="body">
+        <teleport to="body" v-if="options?.length">
             <Transition>
                 <div class="select__body" ref="selectOutside" :style="styleObject" v-if="isShow">
                     <p 
@@ -103,13 +103,26 @@ props
     &__head {
         width: 100%;
         text-align: left;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
+        position: relative;
         transition: .2s;
+        color: #757575;
+        font-weight: 400;
+
+        .icon {
+            position: absolute;
+            right: 12px;
+            bottom: 11px;
+            opacity: 0.7;
+            color: white;
+        }
         
-        &:hover {
-            opacity: 1 !important;
+        &-value {
+            color: white;
+        }
+        
+        &:hover .icon {
+            opacity: 1;
+            color: white;
         }
     }
     

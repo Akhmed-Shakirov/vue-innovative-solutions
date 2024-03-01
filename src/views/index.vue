@@ -24,11 +24,11 @@
 
     <Select v-model="select" :options="options" label="Name" style="width: 250px" />
 
-	<Files v-model="file" />
+	<Files v-model="file" :types="['png', 'jpg', 'jpeg']" />
 
     <img v-if="img" :src="img" alt="img">
 
-	<Files v-model="files" limit="3" />
+	<Files v-model="files" limit="3" :types="['png', 'jpg', 'jpeg']" />
 
     <template v-for="item in imgs" :key="item">
         <img v-if="item" :src="item" alt="img">
