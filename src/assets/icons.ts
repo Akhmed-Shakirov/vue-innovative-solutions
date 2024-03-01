@@ -1729,5 +1729,3 @@ export const icons: {} = {
     time,
     weather,
 }
-
-// export default icons

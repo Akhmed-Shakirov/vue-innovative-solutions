@@ -297,8 +297,6 @@ watch(width, () => {
     if (!!isShow.value) isShow.value = false
 })
 // Datepicker
-
-props
 </script>
 
 <style scoped lang="scss">

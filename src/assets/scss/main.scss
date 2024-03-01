@@ -124,6 +124,23 @@ button:hover {
     opacity: 0;
 }
 
+.list-move,
+.list-enter-active,
+.list-leave-active {
+  transition: all 0.5s ease;
+}
+
+.list-enter-from,
+.list-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+//   z-index: -1;
+}
+
+.list-leave-active {
+  position: absolute;
+}
+
 .no-scroll {
     overflow: hidden;
 }
@@ -190,8 +207,14 @@ button:hover {
 }
 
 @keyframes spin {
-    from {transform:rotate(0deg);}
-    to {transform:rotate(-360deg);}
+    from {transform:rotate(0deg)}
+    to {transform:rotate(-360deg)}
+}
+
+
+@keyframes timer {
+    from {width: 100%}
+    to {width: 0}
 }
 
 .spin {

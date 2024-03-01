@@ -1,5 +1,5 @@
 import { ref } from 'vue'
-import useFetch from './useFetch'
+import { useFetch } from './index'
 
 const findDifferences = (obj1: any, obj2: any): any => {
     const differences: any = {}

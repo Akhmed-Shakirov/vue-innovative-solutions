@@ -4,8 +4,7 @@
 // const { size, page } = storeToRefs(usePaginationt())
 // const { setPaginationt } = usePaginationt()
 
-import { storeToRefs } from 'pinia'
-import { useTokenStore } from '../stores'
+import { useTokenStore, storeToRefs } from '../stores'
 const { access_token, refresh_token } = storeToRefs(useTokenStore())
 
 const isPagination = false

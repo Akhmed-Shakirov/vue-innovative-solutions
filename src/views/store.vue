@@ -8,7 +8,7 @@
     </div>
 
     <Rmb>
-        <button @click="console.log('Rmb')">Rmb</button>
+        <button @click="setNotification({ value: 'secondary', text: 'Secondary' })">Push</button>
 
         <template #body>
             <button @click="console.log('Option 1')">Option 1</button>
@@ -22,10 +22,10 @@
 <script setup lang="ts">
 import { Rmb } from '../components'
 
-import { useCountStore } from '../stores'
-import { storeToRefs } from 'pinia'
+import { useCountStore, useNotifications, storeToRefs } from '../stores'
 
 const { count } = storeToRefs(useCountStore())
+const { setNotification } = useNotifications()
 </script>
 
 <style scoped lang="scss">

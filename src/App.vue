@@ -14,13 +14,15 @@
 
     <router-view />
 
+    <Notifications :timer="5" />
+    
     <!-- <div class="section" /> -->
 </template>
 
 <script setup lang="ts">
+import { Notifications } from './components'
 import { useStorage } from '@vueuse/core'
-import { useCountStore, useTokenStore } from './stores'
-import { storeToRefs } from 'pinia'
+import { useCountStore, useTokenStore, storeToRefs } from './stores'
 
 const { count } = storeToRefs(useCountStore())
 const { access_token, refresh_token } = storeToRefs(useTokenStore())
