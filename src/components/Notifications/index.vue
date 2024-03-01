@@ -19,7 +19,7 @@ const props = defineProps<{
 props
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 .notifications {
     position: fixed;
     top: 50px;

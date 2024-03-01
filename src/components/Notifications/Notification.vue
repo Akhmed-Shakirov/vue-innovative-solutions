@@ -43,13 +43,15 @@ watchDebounced(() => props.timer, () => {
         font-size: 16px;
         font-weight: 500;
     }
+
     .icon {
         width: 24px;
         height: 24px;
     }
+
     .xmark {
         cursor: pointer;
-        
+
         &:hover {
             opacity: .5;
         }
@@ -58,15 +60,19 @@ watchDebounced(() => props.timer, () => {
     &__orange {
         background: #ec4a0a;
     }
+
     &__red {
         background: #d92d20;
     }
+
     &__green {
         background: #027a48;
     }
+
     &__blue {
         background: #3a94cf;
     }
+
     &__gray {
         background: #667085;
     }
@@ -81,6 +87,5 @@ watchDebounced(() => props.timer, () => {
         border-radius: 0 8px 8px 8px;
         animation: timer var(--timer) linear 0s;
     }
-
 }
 </style>
