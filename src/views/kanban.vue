@@ -4,7 +4,7 @@
         <button @click="isAdmin = !isAdmin">Admin: {{ isAdmin }}</button>
     </div>
 
-    <Modal v-model="isModal" @ok="postTodo">
+    <Modal v-model="isModal" @send="postTodo">
         <Input v-model="todo.name" label="Title" />
         <Datepicker v-model="todo.date" label="Date" isActiveDay isMin />
         <Select v-model="todo.user" :options="users" label="User" :keys="['name', 'id']" />

@@ -3,15 +3,15 @@
         <Transition>
             <div class="modal" v-if="modelValue">
                 <div class="modal__content" ref="modal">
-                    <div class="modal__head">
+                    <div class="modal__head" v-if="!isHideHead">
                         
                     </div>
                     <div class="modal__body">
                         <slot />
                     </div>
-                    <div class="modal__footer">
+                    <div class="modal__footer" v-if="!isHideFooter">
                         <button @click="toggle('cancel')">Cansel</button>
-                        <button @click="toggle('ok')">OK</button>
+                        <button @click="toggle('send')">OK</button>
                     </div>
                 </div>
             </div>
@@ -24,6 +24,12 @@ import { ref, defineModel, watch } from 'vue'
 import { onClickOutside } from '@vueuse/core'
 
 const modelValue = defineModel<boolean>()
+
+const props = defineProps<{
+    isHideHead?: boolean
+    isHideFooter?: boolean
+}>() 
+props
 
 const modal = ref<HTMLElement | null>(null)
 
@@ -40,7 +46,7 @@ watch(modelValue, () => {
     }
 })
 
-const emit = defineEmits(['cancel', 'ok'])
+const emit = defineEmits(['cancel', 'send'])
 
 const toggle = (type: any) => {
     emit(type)

@@ -231,6 +231,13 @@ button:hover {
     }
 }
 
+@keyframes wave {
+    100% {
+        transform: scale(2);
+        opacity: 0;
+    }
+}
+
 .spin {
     animation: spin 1s linear 0s infinite;
 }

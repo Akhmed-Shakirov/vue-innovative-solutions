@@ -33,6 +33,10 @@ const routes = [
         path: '/files',
         component: () => import('../views/files.vue')
     },
+    {
+        path: '/test',
+        component: () => import('../views/test.vue')
+    },
 ]
 
 const router = createRouter({

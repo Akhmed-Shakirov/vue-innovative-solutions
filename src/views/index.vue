@@ -20,7 +20,7 @@
 
     <Input v-model="value" label="Name" style="width: 250px" />
 
-    <Datepicker v-model="date" label="Date" style="width: 250px" isActiveDay />
+    <Datepicker v-model="date" label="Date" style="width: 250px" isActiveDay isMax />
 
     <Select v-model="select" :options="options" label="Name" style="width: 250px" />
 
