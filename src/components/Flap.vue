@@ -19,7 +19,7 @@ const isShow = ref<boolean>(false)
 const flap = ref<HTMLElement | null>(null)
 
 onClickOutside(flap, () => {
-    if (!!isShow.value) isShow.value = false
+    if (isShow.value) isShow.value = false
 })
 </script>
 
