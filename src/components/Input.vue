@@ -1,23 +1,29 @@
 <template>
-    <div class="field" :class="{ 'field-icon' : icon }">
+    <div
+        class="field"
+        :class="{
+            'field-icon' : icon,
+            'field__error': isValidation
+        }"
+    >
         <label class="field__label" v-if="label">
             {{ label }}
         </label>
 
-        <input 
+        <input
             class="field__main"
             v-model="modelValue"
-            type="text" 
+            type="text"
             :placeholder="placeholder ?? 'Enter data...'"
             @keyup.enter="$emit('enter')"
             v-maska:[masks]
         >
 
-        <Icon 
-            class="field__icon" 
-            @click="$emit('icon')" 
-            :icon="icon" 
-            v-if="icon" 
+        <Icon
+            class="field__icon"
+            @click="$emit('icon')"
+            :icon="icon"
+            v-if="icon"
         />
 
         <input
@@ -48,10 +54,10 @@ const props = defineProps<{
 }>()
 
 const isValidation = ref(false)
-        
+
 const validator = (e: any) => {
     if (!props.isRequired) return
-    
+
     isValidation.value = false
     if (e.target.validity.valid) return
 
@@ -68,5 +74,4 @@ const masks = computed<{ mask: string }>(() => {
 </script>
 
 <style scoped lang="scss">
-
 </style>

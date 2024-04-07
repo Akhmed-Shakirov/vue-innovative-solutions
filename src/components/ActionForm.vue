@@ -1,7 +1,7 @@
 <template>
-    <Modal 
-        v-model="modelValue" 
-        is-hide-head 
+    <Modal
+        v-model="modelValue"
+        is-hide-head
         is-hide-footer
     >
         <div class="actions">
@@ -10,15 +10,12 @@
             <p v-if="description">{{ $t(description ?? '') }}</p>
 
             <div class="actions__button" v-if="buttons">
-                <button 
-                    v-for="(item, index) in buttons" 
-                    :key="item" @click="toggle(index)" 
-                    :class="{ '' : buttons?.length == 1 || index == 1 }"
-                >
-                    {{ $t(item ?? '') }}
-                </button>
-
-                <Button value="Click" />
+                <Button
+                    v-for="(item, index) in buttons"
+                    :key="item" @click="toggle(index)"
+                    :color="buttons?.length == 1 || index == 1 ? color : 'gray'"
+                    :value="item"
+                />
             </div>
         </div>
     </Modal>
@@ -51,7 +48,7 @@ const toggle = (index: number) => {
         emit(arr[1])
     } else {
         emit(arr[index])
-    } 
+    }
 
     modelValue.value = false
 }

@@ -1,15 +1,10 @@
 <template>
     <Flap />
-    
-    <button @click="isModal = !isModal">Modal</button>
+
+    <Button @click="isModal = !isModal" value="Modal" />
 
     <Modal v-model="isModal">
-        <Select />
-        <Select />
-        <Select />
-        <Select />
-        <Select />
-        <Select />
+        <Input v-model="value" label="Name" style="width: 250px" isRequired />
     </Modal>
 
     <Icon icon="xmark"/>
@@ -36,7 +31,7 @@
 </template>
 
 <script setup lang="ts">
-import { Flap, Modal, Icon, Input, Select, Datepicker, Files } from '../components'
+import { Flap, Modal, Icon, Input, Select, Datepicker, Files, Button } from '../components'
 
 import { ref, watch } from 'vue'
 import { useFileLink } from '../composables'

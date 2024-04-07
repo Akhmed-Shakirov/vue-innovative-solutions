@@ -2,24 +2,25 @@
     <teleport to="body">
         <Transition>
             <div class="modal" v-if="modelValue">
-                <div class="modal__content" ref="modal">
+                <form class="modal__content" @submit.prevent="submit" ref="modal" novalidate>
                     <div class="modal__head" v-if="!isHideHead">
-                        
+
                     </div>
                     <div class="modal__body">
                         <slot />
                     </div>
                     <div class="modal__footer" v-if="!isHideFooter">
-                        <button @click="toggle('cancel')">Cansel</button>
-                        <button @click="toggle('send')">OK</button>
+                        <Button @click="toggle('cancel')" value="Cansel" />
+                        <Button is-submit value="OK" />
                     </div>
-                </div>
+                </form>
             </div>
         </Transition>
     </teleport>
 </template>
 
 <script setup lang="ts">
+import { Button } from './index.ts'
 import { ref, defineModel, watch } from 'vue'
 import { onClickOutside } from '@vueuse/core'
 
@@ -28,10 +29,10 @@ const modelValue = defineModel<boolean>()
 const props = defineProps<{
     isHideHead?: boolean
     isHideFooter?: boolean
-}>() 
+}>()
 props
 
-const modal = ref<HTMLElement | null>(null)
+const modal = ref()
 
 onClickOutside(modal, (event: any) => {
     const list = [ ...event?.target?.classList ]
@@ -46,11 +47,20 @@ watch(modelValue, () => {
     }
 })
 
-const emit = defineEmits(['cancel', 'send'])
+const emit = defineEmits(['cancel', 'send', 'error'])
 
 const toggle = (type: any) => {
     emit(type)
     modelValue.value = false
+}
+
+const submit = () => {
+    if (!modal.value.checkValidity()) {
+        emit('error')
+        return false
+    } else {
+        emit('send')
+    }
 }
 </script>
 
@@ -61,7 +71,7 @@ const toggle = (type: any) => {
     left: 0;
     width: 100vw;
     min-height: 100vh;
-    
+
     display: flex;
     align-items: center;
     justify-content: center;

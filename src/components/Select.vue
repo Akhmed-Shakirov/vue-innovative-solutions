@@ -4,16 +4,16 @@
             {{ label }}
         </label>
 
-        <button class="select__head" :class="{ 'select__head-value' : modelValue }" @click="toggle">
+        <Button class="select__head" :class="{ 'select__head-value' : modelValue }" @click="toggle">
             {{ modelValue ? options?.find(el => el[keys[1]] == modelValue)?.[keys[0]] : 'Select data...' }}
             <Icon icon="chevron-down" :deg="isShow ? 'down' : ''" />
-        </button>
+        </Button>
         <teleport to="body" v-if="options?.length">
             <Transition>
                 <div class="select__body" ref="selectOutside" :style="styleObject" v-if="isShow">
-                    <p 
-                        v-for="item in options" 
-                        :key="item[keys[1]]" 
+                    <p
+                        v-for="item in options"
+                        :key="item[keys[1]]"
                         @click="setValue(item)"
                         :class="{ 'active' : item[keys[1]] == modelValue }"
                     >{{ item[keys[0]] }}</p>
@@ -24,7 +24,7 @@
 </template>
 
 <script setup lang="ts">
-import { Icon } from './index.ts'
+import { Icon, Button } from './index.ts'
 import { ref, computed, watch, defineModel } from 'vue'
 import { onClickOutside, useMouseInElement, useWindowSize, watchDebounced } from '@vueuse/core'
 
@@ -115,17 +115,17 @@ props
             opacity: 0.7;
             color: white;
         }
-        
+
         &-value {
             color: white;
         }
-        
+
         &:hover .icon {
             opacity: 1;
             color: white;
         }
     }
-    
+
     &__body {
         z-index: 1;
         width: 200px;

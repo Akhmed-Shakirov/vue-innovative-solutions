@@ -1,8 +1,6 @@
 <template>
     <div class="flap" ref="flap">
-        <button class="flap__head" @click="isShow = !isShow">
-            Toggler
-        </button>
+        <Button class="flap__head" @click="isShow = !isShow" value="Toggler" />
         <div class="animation-flap" :class="{ 'animation-flap__show' : isShow }">
             <div class="flap__body">
                 Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ea molestiae, asperiores porro, dolores corporis aperiam error eius tenetur possimus nam ipsa. Explicabo similique non repudiandae earum ut laborum ipsum velit.
@@ -12,6 +10,7 @@
 </template>
 
 <script setup lang="ts">
+import { Button } from './index.ts'
 import { ref } from 'vue'
 import { onClickOutside } from '@vueuse/core'
 
@@ -35,7 +34,7 @@ onClickOutside(flap, () => {
     &__head {
         width: 200px;
     }
-    
+
     &__body {
         min-height: 0;
     }

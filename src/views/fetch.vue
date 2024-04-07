@@ -1,11 +1,11 @@
 <template>
     <div>
         <div class="d-flex j-center mb">
-            <button @click="posts_request()">GET</button>
-            <button @click="posts_request('post')">POST</button>
-            <button @click="posts_request('put')">PUT</button>
-            <button @click="posts_request('patch')">PATCH</button>
-            <button @click="posts_request('delete')">DELETE</button>
+            <Button @click="posts_request()" value="GET" />
+            <Button @click="posts_request('post')" value="POST" />
+            <Button @click="posts_request('put')" value="PUT" />
+            <Button @click="posts_request('patch')" value="PATCH" />
+            <Button @click="posts_request('delete')" value="DELETE" />
         </div>
         <div v-if="posts.isLoading">
             <p>Loading...</p>
@@ -26,8 +26,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { Button } from '../components'
 import { useService, useFetch } from '../composables'
+import { ref } from 'vue'
 
 const item = ref<any>({})
 const old_item = ref<any>({})

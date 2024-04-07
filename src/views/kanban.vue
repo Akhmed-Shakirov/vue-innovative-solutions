@@ -1,7 +1,7 @@
 <template>
     <div class="d-flex">
-        <button @click="isModal = !isModal">New Todo</button>
-        <button @click="isAdmin = !isAdmin">Admin: {{ isAdmin }}</button>
+        <Button @click="isModal = !isModal" value="New Todo"/>
+        <Button @click="isAdmin = !isAdmin" :value="`Admin: ${isAdmin}`"/>
     </div>
 
     <Modal v-model="isModal" @send="postTodo">
@@ -24,9 +24,9 @@
         </div>
     </template>
 </template>
-  
+
 <script setup lang="ts">
-import { Modal, Input, Select, Datepicker, draggable } from '../components'
+import { Modal, Input, Select, Datepicker, draggable, Button } from '../components'
 
 import { ref, computed, onMounted } from 'vue'
 import { useFetch } from '../composables'
@@ -49,14 +49,14 @@ onMounted(async () => {
 })
 
 const main_todos = computed<any[]>(() => {
-    return users.value.map((user: any) => ({ 
-        ...user, 
-        status: status.value.map((state: any) => ({ 
-            ...state, 
+    return users.value.map((user: any) => ({
+        ...user,
+        status: status.value.map((state: any) => ({
+            ...state,
             todos: todos.value
                             .filter((todo: any) => todo.user === user.id)
                             .filter((todo: any) => todo.state === state.id)
-        })) 
+        }))
     }))
 })
 
@@ -107,13 +107,13 @@ const changesTodo = (evt: any, tasks: any, state: string, userId: number) => {
     if (evt.added) {
         editTodo(tasks, evt.added.element, state, userId)
     }
-    
+
     if (evt.removed || evt.moved) {
         orderTodo(tasks)
     }
 }
 </script>
-  
+
 <style scoped lang="scss">
 .row {
     display: flex;
@@ -137,4 +137,3 @@ const changesTodo = (evt: any, tasks: any, state: string, userId: number) => {
     }
 }
 </style>
-  

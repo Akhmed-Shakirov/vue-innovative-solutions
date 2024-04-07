@@ -4,8 +4,9 @@
 // const { size, page } = storeToRefs(usePaginationt())
 // const { setPaginationt } = usePaginationt()
 
-import { useTokenStore, storeToRefs } from '../stores'
+import { useTokenStore, useNotifications, storeToRefs } from '../stores'
 const { access_token, refresh_token } = storeToRefs(useTokenStore())
+const { setNotification } = useNotifications()
 
 const isPagination = false
 // End Pagination
@@ -57,20 +58,23 @@ const getVerificationRequest = (data: any) => {
     return data
 }
 // Request
-const fetchData = (apiData: string, paramsData: any): any => {
+const fetchData = (apiData: string, paramsData: any, notification?: string): any => {
     return fetch(`${BASEURL}/${apiData}`, paramsData).then(async (res) => {
         // Everything is fine
         if (!res.ok && res.status !== 401) {
+            setNotification({ value: 'warning', text: 'Everything is fine' })
             throw res
         }
 
         // Account not found
         if (!res.ok && res.status === 401 && paramsData?.body && JSON.parse(JSON.stringify(paramsData?.body))?.user_id !== undefined) {
+            setNotification({ value: 'warning', text: 'Account not found' })
             return { detail: 'No active account found with the given credentials' }
         }
 
         // Invalid token
         if (res.status === 401) {
+            setNotification({ value: 'warning', text: 'Invalid token' })
             return fetch(`${BASEURL}/auth/refresh/`, {
                 method: 'POST',
                 headers: {
@@ -94,12 +98,16 @@ const fetchData = (apiData: string, paramsData: any): any => {
 
                 paramsData.headers.Authorization = `Bearer ${access_token.value}`
 
-                return fetchData(apiData, paramsData)
+                return fetchData(apiData, paramsData, notification)
             })
         }
 
         // Results
+        setNotification({ value: 'success', text: notification })
         return await res.json()
+    }).catch(async (error) => {
+        setNotification({ value: 'danger', text: error })
+        return await error
     })
 }
 
@@ -108,14 +116,15 @@ const useFetch = async (
     url: string | any[],
     method = 'GET',
     data = {},
+    notification?: string
 ) => {
     let api
-    
+
     method = method.toLocaleUpperCase()
 
     const params: { method: string, headers: any, body?: any } = {
         method,
-        headers: { 
+        headers: {
             'Content-Type': 'application/json',
             Authorization: ''
         }
@@ -150,7 +159,7 @@ const useFetch = async (
     }
 
     // Request
-    return getVerificationRequest(fetchData(api, params))
+    return getVerificationRequest(fetchData(api, params, notification))
 }
 
 export default useFetch
