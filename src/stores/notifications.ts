@@ -19,7 +19,7 @@ const useNotifications = defineStore('notifications', () => {
     }
 
 	return {
-        notifications, 
+        notifications,
         setNotification,
         removeNotification
     }

@@ -25,21 +25,22 @@ i.icon, img.icon {
     -webkit-mask-repeat: no-repeat;
     -webkit-mask-position: center;
     -webkit-mask-size: contain;
-    
+
     transition: .2s;
 
+
     &.up {
-        transform: rotate(180deg);
-    }
-    
-    &.down {
         transform: rotate(-180deg);
     }
-    
+
+    &.down {
+        transform: rotate(180deg);
+    }
+
     &.left {
         transform: rotate(-90deg);
     }
-    
+
     &.right {
         transform: rotate(90deg);
     }

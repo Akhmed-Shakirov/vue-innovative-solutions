@@ -30,13 +30,11 @@ import { onClickOutside, useMouseInElement, useWindowSize, watchDebounced } from
 
 const modelValue = defineModel<string | number | null>()
 
-interface Props {
+const props = withDefaults(defineProps<{
     options?: any[]
     keys?: string[]
     label?: string
-}
-
-const props = withDefaults(defineProps<Props>(), {
+}>(), {
     keys: () => ['name', 'value']
 })
 

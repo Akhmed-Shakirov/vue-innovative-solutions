@@ -9,6 +9,7 @@
         <router-link to="/kanban">Kanban</router-link>
         <router-link to="/files">Files</router-link>
         <router-link to="/test">Test</router-link>
+        <router-link to="/prototype">Prototype</router-link>
 
         <div class="store" @click="access_token = '11133', refresh_token = '22233'">{{ count }}</div>
     </header>
@@ -16,7 +17,7 @@
     <router-view />
 
     <Notifications :timer="5" />
-    
+
     <!-- <div class="section" /> -->
 </template>
 
