@@ -10,6 +10,7 @@
         <router-link to="/files">Files</router-link>
         <router-link to="/test">Test</router-link>
         <router-link to="/prototype">Prototype</router-link>
+        <router-link to="/select">Select</router-link>
 
         <div class="store" @click="access_token = '11133', refresh_token = '22233'">{{ count }}</div>
     </header>

@@ -7,7 +7,7 @@
 </template>
 
 <script setup lang="ts">
-import { Notification } from '../index'
+import Notification from './Notification.vue'
 import { useNotifications, storeToRefs } from '../../stores'
 
 const { notifications } = storeToRefs(useNotifications())

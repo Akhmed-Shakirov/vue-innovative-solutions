@@ -41,6 +41,10 @@ const routes = [
         path: '/prototype',
         component: () => import('../views/prototype.vue')
     },
+    {
+        path: '/select',
+        component: () => import('../views/select.vue')
+    },
 ]
 
 const router = createRouter({

@@ -3,11 +3,11 @@ import { defineStore } from 'pinia'
 
 const useNotifications = defineStore('notifications', () => {
 	const notifications = ref<any[]>([
-        { id: 1, value: 'warning', text: 'Warning' },
-        { id: 2, value: 'danger', text: 'Danger' },
-        { id: 3, value: 'success', text: 'Success' },
-        { id: 4, value: 'primary', text: 'Primary' },
-        { id: 5, value: 'secondary', text: 'Secondary' }
+        // { id: 1, value: 'warning', text: 'Warning' },
+        // { id: 2, value: 'danger', text: 'Danger' },
+        // { id: 3, value: 'success', text: 'Success' },
+        // { id: 4, value: 'primary', text: 'Primary' },
+        // { id: 5, value: 'secondary', text: 'Secondary' }
     ])
 
     const setNotification = (event: any) => {
