@@ -17,7 +17,7 @@
 
     <Datepicker v-model="date" label="Date" style="width: 250px" isActiveDay isMax />
 
-    <Select v-model="select" :options="options" label="Name" style="width: 250px" />
+    <Select v-model="select" :selects="selects" label="Name" style="width: 250px" />
 
 	<Files v-model="file" :types="['png', 'jpg', 'jpeg']" />
 
@@ -52,7 +52,7 @@ const files = ref<any[]>([])
 
 const imgs = ref<any[]>([])
 
-const options = ref<any[]>([
+const selects = ref<any[]>([
     { name: 'Alex', value: 1 },
     { name: 'Tom', value: 2 },
     { name: 'Max', value: 3 },

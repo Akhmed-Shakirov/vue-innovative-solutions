@@ -7,7 +7,7 @@
     <Modal v-model="isModal" @send="postTodo">
         <Input v-model="todo.name" label="Title" />
         <Datepicker v-model="todo.date" label="Date" isActiveDay isMin />
-        <Select v-model="todo.user" :options="users" label="User" :keys="['name', 'id']" />
+        <Select v-model="todo.user" :selects="users" label="User" :keys="['name', 'id']" />
     </Modal>
 
     <template v-for="user in main_todos" :key="user.id">

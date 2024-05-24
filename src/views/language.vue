@@ -1,7 +1,7 @@
 <template>
     {{ $t('hi') }}
 
-    <Select v-model="language" :options="options" />
+    <Select v-model="language" :selects="selects" />
 </template>
 
 <script setup lang="ts">
@@ -16,7 +16,7 @@ const language = useStorage('language', '')
 
 watch(language, () => locale.value = language.value )
 
-const options = ref<any[]>([
+const selects = ref<any[]>([
     { name: 'RU', value: 'ru' },
     { name: 'KZ', value: 'kz' },
     { name: 'EN', value: 'en' },

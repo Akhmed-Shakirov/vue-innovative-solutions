@@ -15,7 +15,7 @@
         <template v-if="value">
             {{ $t(value ?? '') }}
         </template>
-		<div v-if="!value && $slots.default" style="width: 100%">
+		<div v-if="!value && $slots.default" class="button__slot">
 			<slot />
 		</div>
 
@@ -69,6 +69,7 @@ const applyWaveEffect = (event: any) => {
     position: relative;
     overflow: hidden;
 
+    color: #ffffff;
     background: #1a1a1a;
     border: 1px solid transparent;
     border-radius: 8px;
@@ -85,6 +86,13 @@ const applyWaveEffect = (event: any) => {
     align-items: center;
     justify-content: center;
     gap: 4px;
+
+    &__slot {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+    }
 
     &:hover {
         border-color: #646cff;
