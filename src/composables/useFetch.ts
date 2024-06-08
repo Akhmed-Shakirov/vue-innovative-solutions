@@ -5,14 +5,12 @@
 // const { setPaginationt } = usePaginationt()
 
 import { useTokenStore, useNotifications, storeToRefs } from '../stores'
-const { access_token, refresh_token } = storeToRefs(useTokenStore())
-const { setNotification } = useNotifications()
 
 const isPagination = false
 // End Pagination
 
 // Default Variables
-const BASEURL = 'http://localhost:3000'
+const BASEURL = 'https://jsonplaceholder.typicode.com'
 
 const key = {
     refresh: 'refreshToken',
@@ -59,6 +57,9 @@ const getVerificationRequest = (data: any) => {
 }
 // Request
 const fetchData = (apiData: string, paramsData: any, notification?: string): any => {
+    const { access_token, refresh_token } = storeToRefs(useTokenStore())
+    const { setNotification } = useNotifications()
+
     return fetch(`${BASEURL}/${apiData}`, paramsData).then(async (res) => {
         // Everything is fine
         if (!res.ok && res.status !== 401) {
@@ -103,10 +104,10 @@ const fetchData = (apiData: string, paramsData: any, notification?: string): any
         }
 
         // Results
-        setNotification({ value: 'success', text: notification })
+        setNotification({ value: 'success', text: notification ?? 'Success' })
         return await res.json()
     }).catch(async (error) => {
-        setNotification({ value: 'danger', text: error })
+        setNotification({ value: 'danger', text: error ?? 'Danger' })
         return await error
     })
 }
@@ -118,6 +119,7 @@ const useFetch = async (
     data = {},
     notification?: string
 ) => {
+    const { access_token } = storeToRefs(useTokenStore())
     let api
 
     method = method.toLocaleUpperCase()

@@ -3,7 +3,7 @@
         class="field"
         :class="{
             'field-icon' : icon,
-            'field__error': isValidation
+            'field__error': errorText
         }"
     >
         <label class="field__label" v-if="label">
@@ -13,11 +13,13 @@
         <input
             class="field__main"
             v-model="modelValue"
-            type="text"
+            :type="types || 'text'"
             :placeholder="placeholder ?? 'Enter data...'"
             @keyup.enter="$emit('enter')"
             v-maska:[masks]
         >
+
+        <p class="field__text" v-if="errorText">{{ $t(errorText ?? '') }}</p>
 
         <Icon
             class="field__icon"
@@ -26,50 +28,47 @@
             v-if="icon"
         />
 
-        <input
-            @invalid="validator"
-            :value="modelValue"
-            :required="isRequired"
-            style="display: none"
-        >
+        <Validator
+            v-if="validator?.length"
+            v-model="modelValue"
+            v-model:errorText="errorText"
+            :validator="validator"
+        />
     </div>
 </template>
 
 <script setup lang="ts">
-import { Icon } from './index.ts'
-
+import { Icon, Validator } from './index.ts'
 import { ref, defineModel, computed } from 'vue'
+import { useFindItem } from '../composables'
 import { vMaska } from 'maska'
 
-const modelValue = defineModel<string | number | null>()
+const modelValue = defineModel<string | null>()
 
 const emit = defineEmits(['icon', 'enter'])
 
-const props = defineProps<{
-    isRequired?: boolean
+const props = withDefaults(defineProps<{
     icon?: string
     label?: string
     placeholder?: string
+    validator?: string[]
+    name?: string
+    type?: string
     mask?: string
-}>()
+}>(), {
+    validator: () => []
+})
 
-const isValidation = ref(false)
-
-const validator = (e: any) => {
-    if (!props.isRequired) return
-
-    isValidation.value = false
-    if (e.target.validity.valid) return
-
-    for (const key in e.target.validity) {
-        if (e.target.validity[key]) isValidation.value = true
-    }
-}
+const errorText = ref('')
 
 const masks = computed<{ mask: string }>(() => {
     return {
-        mask: props.mask ? props.mask : '',
+        mask: props.mask ? props.mask : ''
     }
+})
+
+const types = computed<string>(() => {
+    return props.type || useFindItem('number', props.validator)
 })
 </script>
 

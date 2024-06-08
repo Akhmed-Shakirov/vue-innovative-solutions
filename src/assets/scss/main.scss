@@ -195,6 +195,21 @@ h1 {
             padding-right: 42px;
         }
     }
+
+    &__error {
+
+        .field__main {
+            border-color: #ff6464;
+
+            &::placeholder {
+                color: #ff9898;
+            }
+        }
+    }
+
+    &__text {
+        color: #ff9898;
+    }
 }
 
 @keyframes spin {
