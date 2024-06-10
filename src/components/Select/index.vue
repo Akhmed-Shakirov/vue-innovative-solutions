@@ -116,7 +116,7 @@ watchDebounced(isTimer,() => {
 },{ debounce: 100, maxWait: 100 })
 
 watch([width, modelValue], () => {
-    if (!!isShow.value) isShow.value = false
+    if (!!isShow.value && !props.isMulti) isShow.value = false
 })
 </script>
 
