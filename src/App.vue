@@ -11,6 +11,7 @@
         <router-link to="/test">Test</router-link>
         <router-link to="/prototype">Prototype</router-link>
         <router-link to="/select">Select</router-link>
+        <router-link to="/validator">Validator</router-link>
 
         <div class="store" @click="access_token = '11133', refresh_token = '22233'">{{ count }}</div>
     </header>

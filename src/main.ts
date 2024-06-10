@@ -11,9 +11,9 @@ const pinia = createPinia()
 pinia.use(piniaPluginPersistedstate)
 const app = createApp(App)
 
-app.config.globalProperties.msg = () => {
-    return 'Hello'
-}
+// app.config.globalProperties.msg = () => {
+//     return 'Hello'
+// }
 
 // declare global {
 //     interface Object {

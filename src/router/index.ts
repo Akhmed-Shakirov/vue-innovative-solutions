@@ -45,6 +45,10 @@ const routes = [
         path: '/select',
         component: () => import('../views/select.vue')
     },
+    {
+        path: '/validator',
+        component: () => import('../views/validator.vue')
+    },
 ]
 
 const router = createRouter({
