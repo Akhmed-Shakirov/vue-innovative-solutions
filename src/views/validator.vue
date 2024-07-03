@@ -31,7 +31,7 @@ const item = ref<any>({
 })
 const validator = {
     login: ['required', 'min-3', 'max-6', 'email'],
-    password: ['required']
+    password: ['required', 'number']
 }
 
 
